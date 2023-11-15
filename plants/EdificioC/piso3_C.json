@@ -1,0 +1,107 @@
+{
+    "plant": {
+        "size": { "width": 12, "depth": 20 },
+        "map": [
+            [3, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 3, 4, 3, 2, 2, 2, 2, 2, 1],
+            [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 5, 0, 5, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+            [3, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 3, 2, 2, 2, 4, 2, 1],
+            [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 3, 2, 2, 2, 2, 2, 1],
+            [3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+            [3, 7, 0, 0, 0, 0, 2, 2, 2, 2, 4, 2, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [3, 2, 2, 4, 3, 4, 2, 2, 3, 4, 2, 2, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0]
+        ]
+    },
+    "ground": {
+        "size": { "width": 12, "height": 0.125, "depth": 20 },
+        "segments": { "width": 1, "height": 1, "depth": 1 },
+        "primaryColor": "0xffffff",
+        "maps": {
+            "color": {
+                "url": "./textures/wood_floor/wood_0054_color_2k.jpg"
+            },
+            "ao": {
+                "url": "./textures/wood_floor/wood_0054_ao_2k.jpg",
+                "intensity": 1.0
+            },
+            "displacement": {
+                "url": "",
+                "scale": 1.0,
+                "bias": 0.0
+            },
+            "normal": {
+                "url": "./textures/wood_floor/wood_0054_normal_opengl_2k.png",
+                "type": 0,
+                "scale": { "x": 1.0, "y": 1.0 }
+            },
+            "bump": {
+                "url": "",
+                "scale": 1.0
+            },
+            "roughness": {
+                "url": "./textures/wood_floor/wood_0054_roughness_2k.jpg",
+                "rough": 1.0
+            }
+        },
+        "wrapS": 1,
+        "wrapT": 1,
+        "repeat": { "u": 16.0, "v": 16.0 },
+        "magFilter": 1,
+        "minFilter": 5,
+        "secondaryColor": "0x683a22"
+    },
+    "wall": {
+        "segments": { "width": 1, "height": 2 },
+        "primaryColor": "0xffffff",
+        "maps": {
+            "color": {
+                "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_color_2k.jpg"
+            },
+            "ao": {
+                "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_ao_2k.jpg",
+                "intensity": 1.0
+            },
+            "displacement": {
+                "url": "",
+                "scale": 1.0,
+                "bias": 0.0
+            },
+            "normal": {
+                "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_normal_opengl_2k.png",
+                "type": 0,
+                "scale": { "x": 0.5, "y": 0.5 }
+                },
+            "bump": {
+                "url": "",
+                "scale": 1.0
+            },
+            "roughness": {
+                "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_roughness_2k.jpg",
+                "rough": 1.0
+            }
+        },
+        "wrapS": 1,
+        "wrapT": 0,
+        "repeat": { "u": 2.0, "v": 1.0 },
+        "magFilter": 1,
+        "minFilter": 5,
+        "secondaryColor": "0x683a22"
+    },
+    "player": {
+        "initialPosition": [0.0, 0.0],
+        "initialDirection": 90.0
+    }
+}
