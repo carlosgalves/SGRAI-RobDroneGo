@@ -3,6 +3,8 @@ import { OBB } from "three/addons/math/OBB.js";
 import { merge } from "./merge.js";
 import Ground from "./ground.js";
 import Wall from "./wall.js";
+import Door from "./door.js";
+import Elevator from "./elevator.js";
 
 /*
  * parameters = {
@@ -91,9 +93,63 @@ export default class Plant extends THREE.Group {
                 secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
             });
 
+            const door = new Door({
+                groundHeight: description.ground.size.height,
+                segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+                materialParameters: {
+                    color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
+                    mapUrl: description.wall.maps.color.url,
+                    aoMapUrl: description.wall.maps.ao.url,
+                    aoMapIntensity: description.wall.maps.ao.intensity,
+                    displacementMapUrl: description.wall.maps.displacement.url,
+                    displacementScale: description.wall.maps.displacement.scale,
+                    displacementBias: description.wall.maps.displacement.bias,
+                    normalMapUrl: description.wall.maps.normal.url,
+                    normalMapType: normalMapTypes[description.wall.maps.normal.type],
+                    normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
+                    bumpMapUrl: description.wall.maps.bump.url,
+                    bumpScale: description.wall.maps.bump.scale,
+                    roughnessMapUrl: description.wall.maps.roughness.url,
+                    roughness: description.wall.maps.roughness.rough,
+                    wrapS: wrappingModes[description.wall.wrapS],
+                    wrapT: wrappingModes[description.wall.wrapT],
+                    repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
+                    magFilter: magnificationFilters[description.wall.magFilter],
+                    minFilter: minificationFilters[description.wall.minFilter]
+                },
+                secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+            });
+
+            const elevator = new Elevator({
+                groundHeight: description.ground.size.height,
+                segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+                materialParameters: {
+                    color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
+                    mapUrl: description.wall.maps.color.url,
+                    aoMapUrl: description.wall.maps.ao.url,
+                    aoMapIntensity: description.wall.maps.ao.intensity,
+                    displacementMapUrl: description.wall.maps.displacement.url,
+                    displacementScale: description.wall.maps.displacement.scale,
+                    displacementBias: description.wall.maps.displacement.bias,
+                    normalMapUrl: description.wall.maps.normal.url,
+                    normalMapType: normalMapTypes[description.wall.maps.normal.type],
+                    normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
+                    bumpMapUrl: description.wall.maps.bump.url,
+                    bumpScale: description.wall.maps.bump.scale,
+                    roughnessMapUrl: description.wall.maps.roughness.url,
+                    roughness: description.wall.maps.roughness.rough,
+                    wrapS: wrappingModes[description.wall.wrapS],
+                    wrapT: wrappingModes[description.wall.wrapT],
+                    repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
+                    magFilter: magnificationFilters[description.wall.magFilter],
+                    minFilter: minificationFilters[description.wall.minFilter]
+                },
+                secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+            });
             // Build the maze
             let clonedWall;
-            let clonedWall2;
+            let clonedDoor;
+            let clonedElevator;
             this.aabb = [];
             for (let i = 0; i <= this.size.depth; i++) { // In order to represent the southmost walls, the map depth is one row greater than the actual maze depth
                 this.aabb[i] = [];
@@ -121,6 +177,38 @@ export default class Plant extends THREE.Group {
                         clonedWall.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
                         this.add(clonedWall);
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedWall).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
+                        this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
+                    }
+                    if (this.map[i][j] == 4 || this.map[i][j] == 8) {
+                        clonedDoor = door.clone();
+                        clonedDoor.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
+                        this.add(clonedDoor);
+                        this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
+                        this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
+
+                    }
+                    if (this.map[i][j] == 5 || this.map[i][j] == 9) {
+                        clonedDoor = door.clone();
+                        clonedDoor.rotateY(Math.PI / 2.0);
+                        clonedDoor.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
+                        this.add(clonedDoor);
+                        this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
+                        this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
+                    }
+                    if (this.map[i][j] == 6 || this.map[i][j] == 10) {
+                        clonedElevator = elevator.clone();
+                        clonedElevator.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
+                        this.add(clonedElevator);
+                        this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedElevator).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
+                        this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
+
+                    }
+                    if (this.map[i][j] == 7 || this.map[i][j] == 11) {
+                        clonedElevator = elevator.clone();
+                        clonedElevator.rotateY(Math.PI / 2.0);
+                        clonedElevator.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
+                        this.add(clonedElevator);
+                        this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedElevator).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
                 }
