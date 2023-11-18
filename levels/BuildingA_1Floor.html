@@ -488,13 +488,13 @@
     <script type="module">
         import * as THREE from "three";
         import Orientation from "../orientation.js";
-        import BuildingPlant from "../map/floor_plan.js";
+        import Level from "../map/level.js";
 
-        let buildingPlant;
+        let level;
 
         function initialize() {
             // Create the game
-            buildingPlant = new BuildingPlant(
+            level = new Level(
                 {}, // General Parameters
                 {
                     enabled: true,
@@ -749,7 +749,7 @@
         function animate() {
             requestAnimationFrame(animate);
             // Update the game
-            buildingPlant.update();
+            level.update();
         }
 
         initialize();

@@ -37,9 +37,9 @@ export const cubeTextureData = {
     selected: 0
 }
 
-export const plantData = {
-    url: "./floor_plans/building_a/floor1.json",
-    designCredits: "Plant design by my group",
+export const floorPlanData = {
+    url: "/floor_plans/building_a/floor1.json",
+    designCredits: "Floor_plan design by my group",
     texturesCredits: "Maze textures downloaded from <a href='https://www.texturecan.com/' target='_blank' rel='noopener'>TextureCan</a>.",
     scale: new THREE.Vector3(1.0, 1.0, 1.0),
     helpersColor: new THREE.Color(0xffffff)
@@ -53,7 +53,7 @@ export const playerData = {
     walkingSpeed: 0.75,
     defaultDirection: 0.0, // Expressed in degrees
     turningSpeed: 75.0, // Expressed in degrees / second
-    runningFactor: 2.0, // Affects walking speed and turning speed
+    runningFactor: 2.5, // Affects walking speed and turning speed
     keyCodes: { realisticViewMode: "KeyR", fixedView: "Digit1", firstPersonView: "Digit2", thirdPersonView: "Digit3", topView: "Digit4", miniMap: "KeyM", statistics: "KeyZ", userInterface: "KeyU", help: "KeyH", boundingVolumes: "KeyB", ambientLight: "KeyA", directionalLight: "KeyD", spotLight: "KeyS", flashLight: "KeyF", shadows: "KeyX", fog: "KeyG", left: "ArrowLeft", right: "ArrowRight", backward: "ArrowDown", forward: "ArrowUp", jump: "KeyJ", yes: "KeyY", no: "KeyN", wave: "KeyW", punch: "KeyP", thumbsUp: "KeyT" }
 }
 

@@ -57,7 +57,7 @@ export default class Camera {
     percentageToPixels(viewport, windowWidth, windowHeight) { // Convert viewport position and size from % to pixels
         let width = viewport.width;
         let height = viewport.height;
-        if (this.view != "mini-map") {
+        if (this.view !== "mini-map") {
             width *= windowWidth;
             height *= windowHeight;
         }
@@ -75,12 +75,12 @@ export default class Camera {
 
     pixelsToPercentage(viewport, windowWidth, windowHeight) { // Convert viewport position and size from pixels to %
         const deltaWidth = windowWidth - viewport.width;
-        const x = deltaWidth == 0 ? 0 : viewport.x / deltaWidth;
+        const x = deltaWidth === 0 ? 0 : viewport.x / deltaWidth;
         const deltaHeight = windowHeight - viewport.height;
-        const y = deltaHeight == 0 ? 0 : viewport.y / deltaHeight;
+        const y = deltaHeight === 0 ? 0 : viewport.y / deltaHeight;
         let width = viewport.width;
         let height = viewport.height;
-        if (this.view != "mini-map") {
+        if (this.view !== "mini-map") {
             width /= windowWidth;
             height /= windowHeight;
         }
@@ -110,7 +110,7 @@ export default class Camera {
 
         this.perspective.position.set(this.target.x, this.target.y, this.target.z);
         this.orthographic.position.set(this.target.x, this.target.y, this.target.z);
-        if (this.view == "first-person") {
+        if (this.view === "first-person") {
             this.perspective.translateZ(-0.9 * this.playerRadius);
             this.orthographic.translateZ(-0.9 * this.playerRadius);
         }
@@ -161,7 +161,7 @@ export default class Camera {
 
     setActiveProjection(projection) {
         this.projection = projection;
-        if (this.projection != "orthographic") {
+        if (this.projection !== "orthographic") {
             this.activeProjection = this.perspective;
         }
         else {
@@ -183,7 +183,7 @@ export default class Camera {
         this.setViewingParameters();
 
         // Set the default camera projection: mini-map: orthographic; remaining views: perspective
-        if (this.view != "mini-map") {
+        if (this.view !== "mini-map") {
             this.setActiveProjection("perspective");
         }
         else {
@@ -204,15 +204,15 @@ export default class Camera {
 
     snapViewport(frame) { // drag: "none"; resize: string identifying the pointed frame
         let west, east;
-        if (frame == "none" || frame.includes("west")) {
+        if (frame === "none" || frame.includes("west")) {
             west = { size: window.innerWidth, currentPosition: this.viewport.x };
             this.snapPosition(west);
         }
-        if (frame == "none" || frame.includes("east")) {
+        if (frame === "none" || frame.includes("east")) {
             east = { size: window.innerWidth, currentPosition: (this.viewport.x + this.viewport.width) };
             this.snapPosition(east);
         }
-        if (frame == "none") {
+        if (frame === "none") {
             if (west.minDelta < east.minDelta) {
                 this.viewport.x = west.newPosition;
             }
@@ -228,15 +228,15 @@ export default class Camera {
         }
 
         let south, north;
-        if (frame == "none" || frame.includes("south")) {
+        if (frame === "none" || frame.includes("south")) {
             south = { size: window.innerHeight, currentPosition: this.viewport.y };
             this.snapPosition(south);
         }
-        if (frame == "none" || frame.includes("north")) {
+        if (frame === "none" || frame.includes("north")) {
             north = { size: window.innerHeight, currentPosition: (this.viewport.y + this.viewport.height) };
             this.snapPosition(north);
         }
-        if (frame == "none") {
+        if (frame === "none") {
             if (south.minDelta < north.minDelta) {
                 this.viewport.y = south.newPosition;
             }
@@ -322,6 +322,8 @@ export default class Camera {
             this.viewport.y += delta;
             this.viewport.height = this.viewport.width;
         }
+        //TODO: 'width' e 'height' poderão estar trocados
+
         this.viewport = this.roundViewport(this.viewport);
         this.currentViewport = this.pixelsToPercentage(this.viewport, window.innerWidth, window.innerHeight);
         this.setProjectionParameters();
@@ -334,7 +336,7 @@ export default class Camera {
         this.viewport = this.percentageToPixels(this.currentViewport, window.innerWidth, window.innerHeight);
         this.viewportWidthMin = Math.round(this.viewportSizeMin * window.innerWidth);
         this.viewportHeightMin = Math.round(this.viewportSizeMin * window.innerHeight);
-        if (this.view == "mini-map") {
+        if (this.view === "mini-map") {
             this.viewportHeightMin = this.viewportWidthMin = Math.max(this.viewportWidthMin, this.viewportHeightMin);
         }
         this.setProjectionParameters();
