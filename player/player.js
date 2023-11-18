@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { merge } from "./merge.js";
-import { CylinderHelper, BoxHelper } from "./helpers.js";
-
+import { merge } from "../helpers/merge.js";
+import {CylinderHelper} from "../helpers/cylinder_helper";
+import {BoxHelper} from "../helpers/box_helper.js";
 /*
  * parameters = {
  *  url: String,

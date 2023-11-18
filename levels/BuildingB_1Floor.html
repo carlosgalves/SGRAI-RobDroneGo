@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Building C Fourth Floor</title>
+    <title>Building B First Floor</title>
     <style>
         body {
             margin: 0;
@@ -151,9 +151,9 @@
                 <td>
                     Building
                     <select id="building">
-                        <option value="edA">Building A</option>
+                        <option selected="selected" value="edA">Building A</option>
                         <option value="edB">Building B</option>
-                        <option selected="selected" value="edC">Building C</option>
+                        <option value="edC">Building C</option>
                         <option value="edD">Building D</option>
                     </select>
               
@@ -161,16 +161,16 @@
                 <td>
                     Floor
                     <select id="floor">
-                        <option value="f1">Floor 1</option>
+                        <option selected="selected" value="f1">Floor 1</option>
                         <option value="f2">Floor 2</option>
                         <option value="f3">Floor 3</option>
-                        <option selected="selected" value="f4">Floor 4</option>
+                        <option value="f4">Floor 4</option>
                     </select>
                 </td>
                 <td>
                     <button type="button" onclick="goToBuilding()">Go</button> 
                 </td>
-                <script src="map_loader/floor_changer.js"></script>
+                <script src="level_loader.js"></script>
             </tr>
        </table>
     </div>
@@ -487,8 +487,8 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script type="module">
         import * as THREE from "three";
-        import Orientation from "./orientation.js";
-        import BuildingPlant from "./map_loader/floor_plan.js";
+        import Orientation from "../orientation.js";
+        import BuildingPlant from "../map/floor_plan.js";
 
         let buildingPlant;
 
@@ -679,7 +679,7 @@
                     selected: 7
                 }, // Cube texture parameters
                 {
-                    url: "./floor_plans/building_c/floor4.json",
+                    url: "./floor_plans/building_b/floor1.json",
                     designCredits: "Maze designed by <a href='https://www.123rf.com/profile_ckarzx' target='_blank' rel='noopener'>ckarzx</a>.",
                     texturesCredits: "Maze textures downloaded from <a href='https://www.texturecan.com/' target='_blank' rel='noopener'>TextureCan</a>.",
                     helpersColor: new THREE.Color(0xff0077)

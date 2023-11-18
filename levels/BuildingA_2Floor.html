@@ -170,7 +170,7 @@
                 <td>
                     <button type="button" onclick="goToBuilding()">Go</button> 
                 </td>
-                <script src="map_loader/floor_changer.js"></script>
+                <script src="level_loader.js"></script>
             </tr>
        </table>
     </div>
@@ -487,8 +487,8 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script type="module">
         import * as THREE from "three";
-        import Orientation from "./orientation.js";
-        import BuildingPlant from "./map_loader/floor_plan.js";
+        import Orientation from "../orientation.js";
+        import BuildingPlant from "../map/floor_plan.js";
 
         let buildingPlant;
 

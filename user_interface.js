@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Orientation from "./orientation.js";
-import CubeTexture from "./cubetexture.js";
+import CubeTexture from "./cube_textures/cubetexture.js";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 
 export default class UserInterface extends GUI {

@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { merge } from "../merge.js";
-import MultiTexturedMaterial from "../material.js";
+import { merge } from "../helpers/merge.js";
+import MultiTexturedMaterial from "../helpers/material.js";
 
 /*
  * parameters = {
@@ -31,7 +31,7 @@ import MultiTexturedMaterial from "../material.js";
  * }
  */
 
-export default class Door extends THREE.Group {
+export default class Wall extends THREE.Group {
     constructor(parameters) {
         super();
         merge(this, parameters);
@@ -40,70 +40,26 @@ export default class Door extends THREE.Group {
         // Create the materials
         const primaryMaterial = new MultiTexturedMaterial(this.materialParameters);
         const secondaryMaterial = new THREE.MeshStandardMaterial({ color: this.secondaryColor });
-        
-        const doorMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
 
         // Create a wall (seven faces) that casts and receives shadows
 
         // Create the front face (a rectangle)
-        let geometry = new THREE.PlaneGeometry(0.32, 0.5 + this.groundHeight, this.segments.x, this.segments.y);
+        let geometry = new THREE.PlaneGeometry(0.95, 0.5 + this.groundHeight, this.segments.x, this.segments.y);
         let uv = geometry.getAttribute("uv");
         let uv1 = uv.clone();
         geometry.setAttribute("uv1", uv1); // The aoMap requires a second set of UVs: https://threejs.org/docs/index.html?q=meshstand#api/en/materials/MeshStandardMaterial.aoMap
-        let doorFace = new THREE.Mesh(geometry, doorMaterial);
-        doorFace.position.set(0.0, -halfGroundHeight, 0.025);
-        doorFace.castShadow = true;
-        doorFace.receiveShadow = true;
-        this.add(doorFace);
-
-        doorFace = new THREE.Mesh().copy(doorFace, false);
-        doorFace.rotation.y = Math.PI;
-        doorFace.position.set(0.0, -halfGroundHeight, -0.025);
-        this.add(doorFace);
-
-        
         let face = new THREE.Mesh(geometry, primaryMaterial);
+        face.position.set(0.0, -halfGroundHeight, 0.025);
         face.castShadow = true;
         face.receiveShadow = true;
-        face.position.set(0.32, -halfGroundHeight, 0.025);
         this.add(face);
-
-        face = new THREE.Mesh().copy(face, false);
-        face.position.set(-0.32, -halfGroundHeight, 0.025);
-        this.add(face);
-
-        
-        face = new THREE.Mesh().copy(face, false);
-        face.rotation.y = Math.PI;
-        face.position.set(0.32, -halfGroundHeight, -0.025);
-        this.add(face);
-
-        face = new THREE.Mesh().copy(face, false);
-        face.position.set(-0.32, -halfGroundHeight, -0.025);
-        this.add(face);
-
-        /*const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-
-
-        let door = new THREE.Mesh(geometry, material);
-        face = new THREE.Mesh().copy(face, false);
-        face.position.set(0.33, -halfGroundHeight, 0.025);
-        this.add(face);
-
-
-        face = new THREE.Mesh().copy(face, false);
-        face.rotation.y = Math.PI;
-        face.position.set(0.33, -halfGroundHeight, -0.025);
-        this.add(face);
-*/
-
 
         // Create the rear face (a rectangle)
-      /*  face = new THREE.Mesh().copy(face, false);
+        face = new THREE.Mesh().copy(face, false);
         face.rotation.y = Math.PI;
         face.position.set(0.0, -halfGroundHeight, -0.025);
         this.add(face);
-*/
+
         // Create the two left faces (a four-triangle mesh)
         let points = new Float32Array([
             -0.475, -0.25 - this.groundHeight, 0.025,
@@ -179,10 +135,10 @@ export default class Door extends THREE.Group {
     }
 
     clone() {
-        const door = new THREE.Group();
+        const wall = new THREE.Group();
         this.children.forEach(mesh => {
-            door.add(mesh.clone());
+            wall.add(mesh.clone());
         });
-        return door;
+        return wall;
     }
 }
