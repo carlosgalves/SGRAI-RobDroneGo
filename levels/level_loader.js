@@ -6,10 +6,10 @@ function displaySelectors(building, floor, n_floors) {
                     <td>
                         Building
                         <select id="building">
-                            <option value="A" ${building === 'A' ? 'selected' : ''}>Building A</option>
-                            <option value="B" ${building === 'B' ? 'selected' : ''}>Building B</option>
-                            <option value="C" ${building === 'C' ? 'selected' : ''}>Building C</option>
-                            <option value="D" ${building === 'D' ? 'selected' : ''}>Building D</option>
+                            <option value="A" ${building === 'A' ? 'selected' : ''}>A</option>
+                            <option value="B" ${building === 'B' ? 'selected' : ''}>B</option>
+                            <option value="C" ${building === 'C' ? 'selected' : ''}>C</option>
+                            <option value="D" ${building === 'D' ? 'selected' : ''}>D</option>
                         </select>
                     </td>
                     <td>
@@ -31,7 +31,7 @@ function generateFloorOptions(selectedFloor, n_floors) {
     let options = '';
 
     for (let i = 1; i <= n_floors; i++) {
-        options += `<option value="f${i}" ${selectedFloor === `f${i}` ? 'selected' : ''}>Floor ${i}</option>`;
+        options += `<option value="f${i}" ${selectedFloor === `f${i}` ? 'selected' : ''}>${i}</option>`;
     }
     return options;
 }
