@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { merge } from "../helpers/merge.js";
-import {CylinderHelper} from "../helpers/cylinder_helper";
+import {CylinderHelper} from "../helpers/cylinder_helper.js";
 import {BoxHelper} from "../helpers/box_helper.js";
 /*
  * parameters = {
@@ -10,7 +10,7 @@ import {BoxHelper} from "../helpers/box_helper.js";
  *  scale: Vector3,
  *  helpersColor: Color,
  *  walkingSpeed: Float,
- *  defaultDirection: Float,
+ *  defaultDirection: Float,_
  *  turningSpeed: Float,
  *  runningFactor: Float,
  *  keyCodes: { realisticViewMode: String, fixedView: String, firstPersonView: String, thirdPersonView: String, topView: String, miniMap: String, statistics: String, userInterface: String, help: String, boundingVolumes: String, ambientLight: String, directionalLight: String, spotLight: String, flashLight: String, shadows: String, fog: String, left: String, right: String, backward: String, forward: String, jump: String, yes: String, no: String, wave: String, punch: String, thumbsUp: String }
