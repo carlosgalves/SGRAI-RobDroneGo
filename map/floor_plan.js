@@ -163,7 +163,7 @@ export default class FloorPlan extends THREE.Group {
                      *       2       |    Yes     |     No
                      *       3       |    Yes     |    Yes
                      */
-                    if (this.map[i][j] == 2 || this.map[i][j] == 3 || this.map[i][j] == 11 || this.map[i][j] == 9 ) {
+                    if (this.map[i][j] === 2 || this.map[i][j] === 3 || this.map[i][j] === 11 || this.map[i][j] === 9 ) {
                         clonedWall = wall.clone();
                         clonedWall.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
                         this.add(clonedWall);
@@ -171,7 +171,7 @@ export default class FloorPlan extends THREE.Group {
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
 
                     }
-                    if (this.map[i][j] == 1 || this.map[i][j] == 3 || this.map[i][j] == 10 || this.map[i][j] == 8) {
+                    if (this.map[i][j] === 1 || this.map[i][j] === 3 || this.map[i][j] === 10 || this.map[i][j] === 8) {
                         clonedWall = wall.clone();
                         clonedWall.rotateY(Math.PI / 2.0);
                         clonedWall.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
@@ -179,7 +179,7 @@ export default class FloorPlan extends THREE.Group {
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedWall).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
-                    if (this.map[i][j] == 4 || this.map[i][j] == 8) {
+                    if (this.map[i][j] === 4 || this.map[i][j] === 8) {
                         clonedDoor = door.clone();
                         clonedDoor.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
                         this.add(clonedDoor);
@@ -187,7 +187,7 @@ export default class FloorPlan extends THREE.Group {
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
 
                     }
-                    if (this.map[i][j] == 5 || this.map[i][j] == 9) {
+                    if (this.map[i][j] === 5 || this.map[i][j] === 9) {
                         clonedDoor = door.clone();
                         clonedDoor.rotateY(Math.PI / 2.0);
                         clonedDoor.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
@@ -195,7 +195,7 @@ export default class FloorPlan extends THREE.Group {
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
-                    if (this.map[i][j] == 6 || this.map[i][j] == 10) {
+                    if (this.map[i][j] === 6 || this.map[i][j] === 10) {
                         clonedElevator = elevator.clone();
                         clonedElevator.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
                         this.add(clonedElevator);
@@ -203,7 +203,7 @@ export default class FloorPlan extends THREE.Group {
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
 
                     }
-                    if (this.map[i][j] == 7 || this.map[i][j] == 11) {
+                    if (this.map[i][j] === 7 || this.map[i][j] === 11) {
                         clonedElevator = elevator.clone();
                         clonedElevator.rotateY(Math.PI / 2.0);
                         clonedElevator.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
@@ -268,7 +268,7 @@ export default class FloorPlan extends THREE.Group {
     cornerCollision(indices, offsets, orientation, position, delta, radius, name) {
         const row = indices[0] + offsets[0];
         const column = indices[1] + offsets[1];
-        if (this.map[row][column] == 2 - orientation || this.map[row][column] == 3) {
+        if (this.map[row][column] === 2 - orientation || this.map[row][column] === 3) {
             const x = position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x);
             const z = position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z);
             if (x * x + z * z < radius * radius) {
@@ -283,8 +283,8 @@ export default class FloorPlan extends THREE.Group {
     wallCollision(indices, offsets, orientation, position, delta, radius, name) {
         const row = indices[0] + offsets[0];
         const column = indices[1] + offsets[1];
-        if (this.map[row][column] == 2 - orientation || this.map[row][column] == 3) {
-            if (orientation != 0) {
+        if (this.map[row][column] === 2 - orientation || this.map[row][column] === 3) {
+            if (orientation !== 0) {
                 if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
                     console.log("Collision with " + name + ".");
                     return true;
@@ -304,7 +304,7 @@ export default class FloorPlan extends THREE.Group {
     wallAndCornerCollision(indices, offsets, orientation, obb, name) {
         const row = indices[0] + offsets[0];
         const column = indices[1] + offsets[1];
-        if (this.map[row][column] == 2 - orientation || this.map[row][column] == 3) {
+        if (this.map[row][column] === 2 - orientation || this.map[row][column] === 3) {
             if (obb.intersectsBox3(this.aabb[row][column][orientation])) {
                 console.log("Collision with " + name + ".");
                 return true;
@@ -316,7 +316,7 @@ export default class FloorPlan extends THREE.Group {
     // Detect collisions
     collision(method, position, halfSize, direction) {
         const indices = this.cartesianToCell(position);
-        if (method != "obb-aabb") {
+        if (method !== "obb-aabb") {
             if (
                 this.wallCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north wall") || // Collision with north wall
                 this.wallCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west wall") || // Collision with west wall

@@ -25,7 +25,7 @@ export default class Audio {
 
         const onLoad = function (clip, buffer) {
             clip.source.setBuffer(buffer);
-            if (clip.position != "") {
+            if (clip.position !== "") {
                 clip.source.setRefDistance(clip.referenceDistance);
             }
             clip.source.setLoop(clip.loop);
@@ -42,7 +42,7 @@ export default class Audio {
         }
 
         this.loaded = function () {
-            return clipBalance == 0;
+            return clipBalance === 0;
         }
 
         // Initialize clipBalance. It increases whenever a clip is found and decreases each time a clip is successfully loaded. When it reaches zero, all clips have been loaded
@@ -60,7 +60,7 @@ export default class Audio {
         this.types.forEach(type => {
             type.forEach(clip => {
                 clipBalance++;
-                clip.source = clip.position == "" ? new THREE.Audio(this.listener) : new THREE.PositionalAudio(this.listener);
+                clip.source = clip.position === "" ? new THREE.Audio(this.listener) : new THREE.PositionalAudio(this.listener);
                 loader.load(
                     //Resource URL
                     clip.url,
