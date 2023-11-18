@@ -12,10 +12,12 @@ function displaySelectors(building, floor, n_floors) {
                             <option value="D" ${building === 'D' ? 'selected' : ''}>Building D</option>
                         </select>
                     </td>
-                    Floor
+                    <td>
+                        Floor
                         <select id="floor">
                             ${generateFloorOptions(floor, n_floors)}
                         </select>
+                    </td>
                     <td>
                         <button type="button" onclick="goToBuilding()">Go</button>
                     </td>
