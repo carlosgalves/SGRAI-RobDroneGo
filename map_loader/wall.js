@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { merge } from "./merge.js";
-import MultiTexturedMaterial from "./material.js";
+import { merge } from "../merge.js";
+import MultiTexturedMaterial from "../material.js";
 
 /*
  * parameters = {

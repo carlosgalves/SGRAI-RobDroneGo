@@ -15,18 +15,18 @@
 
 import * as THREE from "three";
 import Stats from "three/addons/libs/stats.module.js";
-import Orientation from "./orientation.js";
-import { generalData, audioData, cubeTextureData, plantData, playerData, ambientLightData, directionalLightData, spotLightData, flashLightData, shadowsData, fogData, collisionDetectionData, cameraData } from "./default_data.js";
-import { merge } from "./merge.js";
-import Audio from "./audio.js";
-import CubeTexture from "./cubetexture.js";
-import Animations from "./animations.js";
+import Orientation from "../orientation.js";
+import { generalData, audioData, cubeTextureData, plantData, playerData, ambientLightData, directionalLightData, spotLightData, flashLightData, shadowsData, fogData, collisionDetectionData, cameraData } from "../default_data.js";
+import { merge } from "../merge.js";
+import Audio from "../audio.js";
+import CubeTexture from "../cubetexture.js";
+import Animations from "../animations.js";
 import Plant from "./plant.js";
-import Player from "./player.js";
-import { AmbientLight, DirectionalLight, SpotLight, FlashLight } from "./lights.js";
-import Fog from "./fog.js";
-import Camera from "./camera.js";
-import UserInterface from "./user_interface.js";
+import Player from "../player.js";
+import { AmbientLight, DirectionalLight, SpotLight, FlashLight } from "../lights.js";
+import Fog from "../fog.js";
+import Camera from "../camera.js";
+import UserInterface from "../user_interface.js";
 
 /*
  * generalParameters = {

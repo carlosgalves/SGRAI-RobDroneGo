@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OBB } from "three/addons/math/OBB.js";
-import { merge } from "./merge.js";
+import { merge } from "../merge.js";
 import Ground from "./ground.js";
 import Wall from "./wall.js";
 import Door from "./door.js";

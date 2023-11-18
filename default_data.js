@@ -38,7 +38,7 @@ export const cubeTextureData = {
 }
 
 export const plantData = {
-    url: "./plants/EdificoA/piso1_A.json",
+    url: "./floor_plans/building_a/floor1.json",
     designCredits: "Plant design by my group",
     texturesCredits: "Maze textures downloaded from <a href='https://www.texturecan.com/' target='_blank' rel='noopener'>TextureCan</a>.",
     scale: new THREE.Vector3(1.0, 1.0, 1.0),

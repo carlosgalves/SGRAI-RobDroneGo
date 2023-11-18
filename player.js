@@ -116,4 +116,14 @@ export default class Player extends THREE.Group {
             }
         });
     }
+
+    isInElevatorCell() {
+        // Get the player's current cell coordinates
+        const playerCell = this.cartesianToCell(this.position);
+
+        // Check if the cell has an elevator value (6, 7, 10, or 11)
+        const cellValue = this.plant.map[playerCell[0]][playerCell[1]];
+
+        return [6, 7, 10, 11].includes(cellValue);
+    }
 }
