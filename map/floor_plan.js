@@ -16,7 +16,7 @@ import Elevator from "./elevator.js";
  * }
  */
 
-export default class Floor_plan extends THREE.Group {
+export default class FloorPlan extends THREE.Group {
     constructor(parameters) {
         super();
         merge(this, parameters);
@@ -29,9 +29,9 @@ export default class Floor_plan extends THREE.Group {
             const minificationFilters = [THREE.NearestFilter, THREE.NearestMipmapNearestFilter, THREE.NearestMipmapLinearFilter, THREE.LinearFilter, THREE.LinearMipmapNearestFilter, THREE.LinearMipmapLinearFilter];
 
             // Store the maze's size, map and exit location
-            this.size = description.plant.size;
+            this.size = description.floorPlan.size;
             this.halfSize = { width: this.size.width / 2.0, depth: this.size.depth / 2.0 };
-            this.map = description.plant.map;
+            this.map = description.floorPlan.map;
 
             // Create the helpers
             this.helper = new THREE.Group();

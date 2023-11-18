@@ -1,5 +1,5 @@
 {
-  "plant": {
+  "floorPlan": {
     "size": { "width": 22, "depth": 10 },
     "map": [
       [3, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2 ,2 ,2 ,2, 3, 2, 2, 2, 1],
@@ -21,10 +21,10 @@
     "primaryColor": "0xffffff",
     "maps": {
       "color": {
-        "url": "./textures/wood_floor/wood_0054_color_2k.jpg"
+        "url": "/textures/wood_floor/wood_0054_color_2k.jpg"
       },
       "ao": {
-        "url": "./textures/wood_floor/wood_0054_ao_2k.jpg",
+        "url": "/textures/wood_floor/wood_0054_ao_2k.jpg",
         "intensity": 1.0
       },
       "displacement": {
@@ -33,7 +33,7 @@
         "bias": 0.0
       },
       "normal": {
-        "url": "./textures/wood_floor/wood_0054_normal_opengl_2k.png",
+        "url": "/textures/wood_floor/wood_0054_normal_opengl_2k.png",
         "type": 0,
         "scale": { "x": 1.0, "y": 1.0 }
       },
@@ -42,7 +42,7 @@
         "scale": 1.0
       },
       "roughness": {
-        "url": "./textures/wood_floor/wood_0054_roughness_2k.jpg",
+        "url": "/textures/wood_floor/wood_0054_roughness_2k.jpg",
         "rough": 1.0
       }
     },
@@ -58,10 +58,10 @@
     "primaryColor": "0xffffff",
     "maps": {
       "color": {
-        "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_color_2k.jpg"
+        "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_color_2k.jpg"
       },
       "ao": {
-        "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_ao_2k.jpg",
+        "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_ao_2k.jpg",
         "intensity": 1.0
       },
       "displacement": {
@@ -70,7 +70,7 @@
         "bias": 0.0
       },
       "normal": {
-        "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_normal_opengl_2k.png",
+        "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_normal_opengl_2k.png",
         "type": 0,
         "scale": { "x": 0.5, "y": 0.5 }
       },
@@ -79,7 +79,7 @@
         "scale": 1.0
       },
       "roughness": {
-        "url": "./textures/plastic_0004_2k_rrF8ut/plastic_0004_roughness_2k.jpg",
+        "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_roughness_2k.jpg",
         "rough": 1.0
       }
     },

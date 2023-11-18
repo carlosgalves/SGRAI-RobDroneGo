@@ -16,12 +16,12 @@
 import * as THREE from "three";
 import Stats from "three/addons/libs/stats.module.js";
 import Orientation from "../orientation.js";
-import { generalData, audioData, cubeTextureData, plantData, playerData, ambientLightData, directionalLightData, spotLightData, flashLightData, shadowsData, fogData, collisionDetectionData, cameraData } from "../default_data.js";
+import { generalData, audioData, cubeTextureData, floorPlanData, playerData, ambientLightData, directionalLightData, spotLightData, flashLightData, shadowsData, fogData, collisionDetectionData, cameraData } from "../default_data.js";
 import { merge } from "../helpers/merge.js";
 import Audio from "../audio.js";
 import CubeTexture from "../cube_textures/cubetexture.js";
 import Animations from "../player/animations.js";
-import Floor_plan from "./floor_plan.js";
+import FloorPlan from "./floor_plan.js";
 import Player from "../player/player.js";
 import { AmbientLight, DirectionalLight, SpotLight, FlashLight } from "./environment/lights.js";
 import Fog from "./environment/fog.js";
@@ -346,11 +346,11 @@ import UserInterface from "../user_interface.js";
  */
 
 export default class Level {
-    constructor(generalParameters, audioParameters, cubeTexturesParameters, plantParameters, playerParameters, ambientLightParameters, directionalLightParameters, spotLightParameters, flashLightParameters, shadowsParameters, fogParameters, collisionDetectionParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
+    constructor(generalParameters, audioParameters, cubeTexturesParameters, floorPlanParameters, playerParameters, ambientLightParameters, directionalLightParameters, spotLightParameters, flashLightParameters, shadowsParameters, fogParameters, collisionDetectionParameters, fixedViewCameraParameters, firstPersonViewCameraParameters, thirdPersonViewCameraParameters, topViewCameraParameters, miniMapCameraParameters) {
         this.generalParameters = merge({}, generalData, generalParameters);
         this.audioParameters = merge({}, audioData, audioParameters);
         this.cubeTexturesParameters = merge({}, cubeTextureData, cubeTexturesParameters);
-        this.plantParameters = merge({}, plantData, plantParameters);
+        this.floorPlanParameters = merge({}, floorPlanData, floorPlanParameters);
         this.playerParameters = merge({}, playerData, playerParameters);
         this.ambientLightParameters = merge({}, ambientLightData, ambientLightParameters);
         this.directionalLightParameters = merge({}, directionalLightData, directionalLightParameters);
@@ -399,7 +399,7 @@ export default class Level {
         this.cubeTexture = new CubeTexture(this.cubeTexturesParameters.skyboxes[this.cubeTexturesParameters.selected]);
 
         // Create the maze
-        this.plant = new Floor_plan(this.plantParameters);
+        this.floorPlan = new FloorPlan(this.floorPlanParameters);
 
         // Create the player
         this.player = new Player(this.playerParameters);
@@ -517,7 +517,7 @@ export default class Level {
         while (table.rows.length > 1) {
             table.deleteRow(-1);
         };
-        [this.audio.credits, this.cubeTexture.credits, this.plant.designCredits, this.plant.texturesCredits, this.player.credits].forEach(element => {
+        [this.audio.credits, this.cubeTexture.credits, this.floorPlan.designCredits, this.floorPlan.texturesCredits, this.player.credits].forEach(element => {
             if (element != "") {
                 const row = table.insertRow(-1);
                 const cell = row.insertCell(-1);
@@ -792,7 +792,7 @@ export default class Level {
 
     setBoundingVolumesVisibility(visible) {
         if (visible) {
-            this.scene.add(this.plant.helper);
+            this.scene.add(this.floorPlan.helper);
             if (this.collisionDetectionParameters.method != "obb-aabb") {
                 this.player.body.add(this.player.cylinderHelper);
             }
@@ -801,7 +801,7 @@ export default class Level {
             }
         }
         else {
-            this.scene.remove(this.plant.helper);
+            this.scene.remove(this.floorPlan.helper);
             if (this.collisionDetectionParameters.method != "obb-aabb") {
                 this.player.body.remove(this.player.cylinderHelper);
             }
@@ -1153,7 +1153,7 @@ export default class Level {
 
     update() {
         if (!this.gameRunning) {
-            if (this.audio.loaded() && this.plant.loaded && this.player.loaded) { // If all resources have been loaded
+            if (this.audio.loaded() && this.floorPlan.loaded && this.player.loaded) { // If all resources have been loaded
                 // Add positional audio sources to objects
                 const types = [this.audio.introductionClips, this.audio.idleClips, this.audio.jumpClips, this.audio.deathClips, this.audio.danceClips, this.audio.endClips];
                 types.forEach(type => {
@@ -1166,17 +1166,17 @@ export default class Level {
                                 clip.source.position.set(position[0], position[1], position[2]);
                             }
                         }
-                        else if (position.length == 3 && position[0] == "plant") { // Positional audio object (maze specific position in cell coordinates)
+                        else if (position.length == 3 && position[0] == "floorPlan") { // Positional audio object (maze specific position in cell coordinates)
                             position = position.slice(1).map(Number);
                             if (!Number.isNaN(position[0]) && !Number.isNaN(position[1])) {
                                 this.scene.add(clip.source);
-                                position = this.plant.cellToCartesian(position);
+                                position = this.floorPlan.cellToCartesian(position);
                                 clip.source.position.set(position.x, position.y, position.z);
                             }
                         }
                         else if (clip.position == "initial") { // Positional audio object (player initial position)
                             this.scene.add(clip.source);
-                            clip.source.position.set(this.plant.initialPosition.x, this.plant.initialPosition.y, this.plant.initialPosition.z);
+                            clip.source.position.set(this.floorPlan.initialPosition.x, this.floorPlan.initialPosition.y, this.floorPlan.initialPosition.z);
                         }
                         else if (clip.position == "player") { // Positional audio object (player current position)
                             this.player.add(clip.source);
@@ -1188,7 +1188,7 @@ export default class Level {
                 });
 
                 // Add the maze, the player and the lights to the scene
-                this.scene.add(this.plant);
+                this.scene.add(this.floorPlan);
                 this.scene.add(this.player);
                 this.scene.add(this.ambientLight);
                 this.scene.add(this.directionalLight);
@@ -1200,8 +1200,8 @@ export default class Level {
                 this.animations = new Animations(this.player);
 
                 // Set the player's position and direction
-                this.player.position.set(this.plant.initialPosition.x, this.plant.initialPosition.y, this.plant.initialPosition.z);
-                this.player.direction = this.plant.initialDirection;
+                this.player.position.set(this.floorPlan.initialPosition.x, this.floorPlan.initialPosition.y, this.floorPlan.initialPosition.z);
+                this.player.direction = this.floorPlan.initialDirection;
 
                 // Set the spotlight target
                 this.spotLight.target = this.player;
@@ -1309,7 +1309,7 @@ export default class Level {
                         playerMoved = true;
                         position.add(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
                     }
-                    if (this.plant.collision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection)) {
+                    if (this.floorPlan.collision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection)) {
                         this.audio.play(this.audio.deathClips, false);
                         this.animations.fadeToAction("Death", 0.2);
                     }
