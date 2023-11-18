@@ -142,37 +142,16 @@
             display: block;
         }
     </style>
+    <script src="level_loader.js"></script>
 </head>
 
 <body>
     <div id="building-container">
         <table class="views">
-            <tr>
-                <td>
-                    Building
-                    <select id="building">
-                        <option value="edA">Building A</option>
-                        <option value="edB">Building B</option>
-                        <option selected="selected" value="edC">Building C</option>
-                        <option value="edD">Building D</option>
-                    </select>
-              
-                </td>
-                <td>
-                    Floor
-                    <select id="floor">
-                        <option value="f1">Floor 1</option>
-                        <option value="f2">Floor 2</option>
-                        <option value="f3">Floor 3</option>
-                        <option selected="selected" value="f4">Floor 4</option>
-                    </select>
-                </td>
-                <td>
-                    <button type="button" onclick="goToBuilding()">Go</button> 
-                </td>
-                <script src="level_loader.js"></script>
-            </tr>
-       </table>
+            <script>
+                displaySelectors('C', 'f4', 4);
+            </script>
+        </table>
     </div>
     <div id="container">
         <div id="views-panel">

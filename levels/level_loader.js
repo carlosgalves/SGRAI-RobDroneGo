@@ -1,109 +1,97 @@
+function displaySelectors(building, floor, n_floors) {
+    document.write(`
+        <div id="building-container">
+            <table class="views">
+                <tr>
+                    <td>
+                        Building
+                        <select id="building">
+                            <option value="A" ${building === 'A' ? 'selected' : ''}>Building A</option>
+                            <option value="B" ${building === 'B' ? 'selected' : ''}>Building B</option>
+                            <option value="C" ${building === 'C' ? 'selected' : ''}>Building C</option>
+                            <option value="D" ${building === 'D' ? 'selected' : ''}>Building D</option>
+                        </select>
+                    </td>
+                    Floor
+                        <select id="floor">
+                            ${generateFloorOptions(floor, n_floors)}
+                        </select>
+                    <td>
+                        <button type="button" onclick="goToBuilding()">Go</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    `);
+}
+
+function generateFloorOptions(selectedFloor, n_floors) {
+    let options = '';
+
+    for (let i = 1; i <= n_floors; i++) {
+        options += `<option value="f${i}" ${selectedFloor === `f${i}` ? 'selected' : ''}>Floor ${i}</option>`;
+    }
+    return options;
+}
+
 function goToBuilding() {
     let floor = document.getElementById("floor").value;
     let building = document.getElementById("building").value;
-    console.log("floor = " + floor);
-    console.log("building = " + building);
 
     switch (building) {
-        case "edA":
+        case "A":
             switch (floor) {
                 case "f1":
-                    window.location.href = 'BuildingA_1Floor.html';
-                    break;
-
+                    window.location.href = 'Building_A_floor_1.html'; break;
                 case "f2":
-                    window.location.href = 'BuildingA_2Floor.html';
-                    break;
-
-                case "f3":
-                    alert("Building A doesn't have a third floor");
-                    break;
-
-                case "f4":
-                    alert("Building A doesn't have a fourth floor");
-                    break;
-
+                    window.location.href = 'Building_A_floor_2.html'; break;
                 default:
                     alert("Select a valid floor option");
-                    break;
             }
             break;
 
-        case "edB":
+        case "B":
             switch (floor) {
                 case "f1":
-                    window.location.href = 'BuildingB_1Floor.html';
-                    break;
-
+                    window.location.href = 'Building_B_floor_1.html'; break;
                 case "f2":
-                    window.location.href = 'BuildingB_2Floor.html';
-                    break;
-
+                    window.location.href = 'Building_B_floor_2.html'; break;
                 case "f3":
-                    window.location.href = 'BuildingB_3Floor.html';
-                    break;
-
-                case "f4":
-                    alert("Building B doesn't have a fourth floor");
-                    break;
-
+                    window.location.href = 'Building_B_floor_3.html'; break;
                 default:
                     alert("Select a valid floor option");
-                    break;
             }
             break;
 
-        case "edC":
+        case "C":
             switch (floor) {
                 case "f1":
-                    window.location.href = 'BuildingC_1Floor.html';
-                    break;
-
+                    window.location.href = 'Building_C_floor_1.html'; break;
                 case "f2":
-                    window.location.href = 'BuildingC_2Floor.html';
-                    break;
-
+                    window.location.href = 'Building_C_floor_2.html'; break;
                 case "f3":
-                    window.location.href = 'BuildingC_3Floor.html';
-                    break;
-
+                    window.location.href = 'Building_C_floor_3.html'; break;
                 case "f4":
-                    window.location.href = 'BuildingC_4Floor.html';
-                    break;
-
+                    window.location.href = 'Building_C_floor_4.html'; break;
                 default:
                     alert("Select a valid floor option");
-                    break;
             }
             break;
 
-        case "edD":
+        case "D":
             switch (floor) {
                 case "f1":
-                    window.location.href = 'BuildingD_1Floor.html';
-                    break;
-
+                    window.location.href = 'Building_D_floor_1.html'; break;
                 case "f2":
-                    window.location.href = 'BuildingD_2Floor.html';
-                    break;
-
+                    window.location.href = 'Building_D_floor_2.html'; break;
                 case "f3":
-                    window.location.href = 'BuildingD_3Floor.html';
-                    break;
-
-                case "f4":
-                    alert("Building D doesn't have a fourth floor");
-                    break;
-
+                    window.location.href = 'Building_D_floor_3.html'; break;
                 default:
                     alert("Select a valid floor option");
-                    break;
             }
             break;
 
         default:
             alert("Select a valid building option");
-            break;
     }
-
 }
