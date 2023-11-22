@@ -1,11 +1,11 @@
-function displaySelectors(building, floor, n_floors) {
+function displaySelectors(building, selectedFloor) {
     document.write(`
         <div id="building-container">
             <table class="views">
                 <tr>
                     <td>
                         Building
-                        <select id="building">
+                        <select id="building" onchange="updateFloorOptions()">
                             <option value="A" ${building === 'A' ? 'selected' : ''}>A</option>
                             <option value="B" ${building === 'B' ? 'selected' : ''}>B</option>
                             <option value="C" ${building === 'C' ? 'selected' : ''}>C</option>
@@ -15,7 +15,7 @@ function displaySelectors(building, floor, n_floors) {
                     <td>
                         Floor
                         <select id="floor">
-                            ${generateFloorOptions(floor, n_floors)}
+                            ${generateFloorOptions(building, selectedFloor)}
                         </select>
                     </td>
                     <td>
@@ -27,18 +27,46 @@ function displaySelectors(building, floor, n_floors) {
     `);
 }
 
-function generateFloorOptions(selectedFloor, n_floors) {
-    let options = '';
+function generateFloorOptions(building, selectedFloor) {
+    let n_floors;
+    switch (building) {
+        case 'A':
+            n_floors = 2;
+            break;
+        case 'B':
+            n_floors = 3;
+            break;
+        case 'C':
+            n_floors = 4;
+            break;
+        case 'D':
+            n_floors = 3;
+            break;
+        default:
+            n_floors = 0;
+    }
 
+    let options = '';
     for (let i = 1; i <= n_floors; i++) {
         options += `<option value="f${i}" ${selectedFloor === `f${i}` ? 'selected' : ''}>${i}</option>`;
     }
+
     return options;
 }
+function updateFloorOptions() {
+    const buildingSelect = document.getElementById('building');
+    const selectedBuilding = buildingSelect.value;
+
+    const floorSelect = document.getElementById('floor');
+    const selectedFloor = floorSelect.value;
+
+    floorSelect.innerHTML = generateFloorOptions(selectedBuilding, selectedFloor);
+}
+
 
 function goToBuilding() {
-    let floor = document.getElementById("floor").value;
     let building = document.getElementById("building").value;
+    const floor = document.getElementById('floor').value;
 
     switch (building) {
         case "A":
