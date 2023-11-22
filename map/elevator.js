@@ -45,7 +45,7 @@ export default class Elevator extends THREE.Group {
         // Create a wall (seven faces) that casts and receives shadows
 
         // Create the front face (a rectangle)
-        let geometry = new THREE.PlaneGeometry(0.47, 0.5 + this.groundHeight, this.segments.x, this.segments.y);
+        let geometry = new THREE.PlaneGeometry(0.49, 1 + this.groundHeight, this.segments.x, this.segments.y);
         let uv = geometry.getAttribute("uv");
         let uv1 = uv.clone();
         geometry.setAttribute("uv1", uv1); // The aoMap requires a second set of UVs: https://threejs.org/docs/index.html?q=meshstand#api/en/materials/MeshStandardMaterial.aoMap
@@ -81,15 +81,15 @@ export default class Elevator extends THREE.Group {
 */
         // Create the two left faces (a four-triangle mesh)
         let points = new Float32Array([
-            -0.475, -0.25 - this.groundHeight, 0.025,
-            -0.475, 0.25, 0.025,
-            -0.5, 0.25, 0.0,
-            -0.5, -0.25 - this.groundHeight, 0.0,
-
-            -0.5, 0.25, 0.0,
-            -0.475, 0.25, -0.025,
-            -0.475, -0.25 - this.groundHeight, -0.025,
-            -0.5, -0.25 - this.groundHeight, 0.0
+            -0.475, -0.5 - this.groundHeight, 0.025,
+            -0.475, 0.5, 0.025,
+            -0.5, 0.5, 0.0,
+            -0.5, -0.5 - this.groundHeight, 0.0,
+        
+            -0.5, 0.5, 0.0,
+            -0.475, 0.5, -0.025,
+            -0.475, -0.5 - this.groundHeight, -0.025,
+            -0.5, -0.5 - this.groundHeight, 0.0
         ]);
         let normals = new Float32Array([
             -0.707, 0.0, 0.707,
@@ -123,12 +123,12 @@ export default class Elevator extends THREE.Group {
 
         // Create the top face (a four-triangle mesh)
         points = new Float32Array([
-            -0.5, 0.25, 0.0,
-            -0.475, 0.25, 0.025,
-            -0.475, 0.25, -0.025,
-            0.475, 0.25, 0.025,
-            0.475, 0.25, -0.025,
-            0.5, 0.25, 0.0
+            -0.5, 0.5, 0.0,
+            -0.475, 0.5, 0.025,
+            -0.475, 0.5, -0.025,
+            0.475, 0.5, 0.025,
+            0.475, 0.5, -0.025,
+            0.5, 0.5, 0.0
         ]);
         normals = new Float32Array([
             0.0, 1.0, 0.0,

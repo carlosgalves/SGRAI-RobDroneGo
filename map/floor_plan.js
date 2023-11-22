@@ -165,7 +165,7 @@ export default class FloorPlan extends THREE.Group {
                      */
                     if (this.map[i][j] === 2 || this.map[i][j] === 3 || this.map[i][j] === 11 || this.map[i][j] === 9 ) {
                         clonedWall = wall.clone();
-                        clonedWall.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
+                        clonedWall.position.set(j - this.halfSize.width + 0.5, 0.5, i - this.halfSize.depth);
                         this.add(clonedWall);
                         this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedWall).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
@@ -174,14 +174,14 @@ export default class FloorPlan extends THREE.Group {
                     if (this.map[i][j] === 1 || this.map[i][j] === 3 || this.map[i][j] === 10 || this.map[i][j] === 8) {
                         clonedWall = wall.clone();
                         clonedWall.rotateY(Math.PI / 2.0);
-                        clonedWall.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
+                        clonedWall.position.set(j - this.halfSize.width, 0.5, i - this.halfSize.depth + 0.5);
                         this.add(clonedWall);
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedWall).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
                     if (this.map[i][j] === 4 || this.map[i][j] === 8) {
                         clonedDoor = door.clone();
-                        clonedDoor.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
+                        clonedDoor.position.set(j - this.halfSize.width + 0.5, 0.5, i - this.halfSize.depth);
                         this.add(clonedDoor);
                         this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
@@ -190,14 +190,14 @@ export default class FloorPlan extends THREE.Group {
                     if (this.map[i][j] === 5 || this.map[i][j] === 9) {
                         clonedDoor = door.clone();
                         clonedDoor.rotateY(Math.PI / 2.0);
-                        clonedDoor.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
+                        clonedDoor.position.set(j - this.halfSize.width, 0.5, i - this.halfSize.depth + 0.5);
                         this.add(clonedDoor);
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
                     if (this.map[i][j] === 6 || this.map[i][j] === 10) {
                         clonedElevator = elevator.clone();
-                        clonedElevator.position.set(j - this.halfSize.width + 0.5, 0.25, i - this.halfSize.depth);
+                        clonedElevator.position.set(j - this.halfSize.width + 0.5, 0.5, i - this.halfSize.depth);
                         this.add(clonedElevator);
                         this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedElevator).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
@@ -206,7 +206,7 @@ export default class FloorPlan extends THREE.Group {
                     if (this.map[i][j] === 7 || this.map[i][j] === 11) {
                         clonedElevator = elevator.clone();
                         clonedElevator.rotateY(Math.PI / 2.0);
-                        clonedElevator.position.set(j - this.halfSize.width, 0.25, i - this.halfSize.depth + 0.5);
+                        clonedElevator.position.set(j - this.halfSize.width, 0.5, i - this.halfSize.depth + 0.5);
                         this.add(clonedElevator);
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedElevator).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
@@ -312,12 +312,64 @@ export default class FloorPlan extends THREE.Group {
         }
         return false;
     }
+    doorCollision(indices, offsets, orientation, position, delta, radius, name) {
+        const row = indices[0] + offsets[0];
+        const column = indices[1] + offsets[1];
+    
+        const isDoor = this.map[row][column] === 4 || this.map[row][column] === 5 || this.map[row][column] === 8 || this.map[row][column] === 9;
+    
+        if (isDoor) {
+            if (orientation !== 0) {
+                if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
+                    console.log("Collision with " + name + ".");
+                    return true;
+                }
+            } else {
+                if (Math.abs(position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z)) < radius) {
+                    console.log("Collision with " + name + ".");
+                    return true;
+                }
+            }
+        }
+    
+        return false;
+    }
+
+    elevatorCollision(indices, offsets, orientation, position, delta, radius, name) {
+        const row = indices[0] + offsets[0];
+        const column = indices[1] + offsets[1];
+    
+        const isDoor = this.map[row][column] === 10 || this.map[row][column] === 11 || this.map[row][column] === 6 || this.map[row][column] === 7;
+    
+        if (isDoor) {
+            if (orientation !== 0) {
+                if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
+                    console.log("Collision with " + name + ".");
+                    return true;
+                }
+            } else {
+                if (Math.abs(position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z)) < radius) {
+                    console.log("Collision with " + name + ".");
+                    return true;
+                }
+            }
+        }
+    
+        return false;
+    }
 
     // Detect collisions
     collision(method, position, halfSize, direction) {
+        /*
+                this.doorCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north door") || // Collision with north door
+                this.doorCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west door") || // Collision with west door
+                this.doorCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south door") || // Collision with south door
+                this.doorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east door") || // Collision with east door
+        */
         const indices = this.cartesianToCell(position);
         if (method !== "obb-aabb") {
             if (
+
                 this.wallCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north wall") || // Collision with north wall
                 this.wallCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west wall") || // Collision with west wall
                 this.wallCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south wall") || // Collision with south wall
