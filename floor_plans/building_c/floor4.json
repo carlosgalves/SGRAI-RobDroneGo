@@ -101,7 +101,7 @@
         "secondaryColor": "0x683a22"
     },
     "player": {
-        "initialPosition": [0.0, 0.0],
+        "initialPosition": [14.0, 0.0],
         "initialDirection": 90.0
     }
 }
