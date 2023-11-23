@@ -21,6 +21,8 @@ export default class FloorPlan extends THREE.Group {
         super();
         merge(this, parameters);
         this.loaded = false;
+        this.doors = [];
+        this.elevators = [];
 
         this.onLoad = function (description) {
             const normalMapTypes = [THREE.TangentSpaceNormalMap, THREE.ObjectSpaceNormalMap];
@@ -32,7 +34,6 @@ export default class FloorPlan extends THREE.Group {
             this.size = description.floorPlan.size;
             this.halfSize = { width: this.size.width / 2.0, depth: this.size.depth / 2.0 };
             this.map = description.floorPlan.map;
-
             // Create the helpers
             this.helper = new THREE.Group();
 
@@ -92,37 +93,11 @@ export default class FloorPlan extends THREE.Group {
                 },
                 secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
             });
-
-            const door = new Door({
-                groundHeight: description.ground.size.height,
-                segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
-                materialParameters: {
-                    color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
-                    mapUrl: description.wall.maps.color.url,
-                    aoMapUrl: description.wall.maps.ao.url,
-                    aoMapIntensity: description.wall.maps.ao.intensity,
-                    displacementMapUrl: description.wall.maps.displacement.url,
-                    displacementScale: description.wall.maps.displacement.scale,
-                    displacementBias: description.wall.maps.displacement.bias,
-                    normalMapUrl: description.wall.maps.normal.url,
-                    normalMapType: normalMapTypes[description.wall.maps.normal.type],
-                    normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
-                    bumpMapUrl: description.wall.maps.bump.url,
-                    bumpScale: description.wall.maps.bump.scale,
-                    roughnessMapUrl: description.wall.maps.roughness.url,
-                    roughness: description.wall.maps.roughness.rough,
-                    wrapS: wrappingModes[description.wall.wrapS],
-                    wrapT: wrappingModes[description.wall.wrapT],
-                    repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
-                    magFilter: magnificationFilters[description.wall.magFilter],
-                    minFilter: minificationFilters[description.wall.minFilter]
-                },
-                secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
-            });
-
             const elevator = new Elevator({
                 groundHeight: description.ground.size.height,
                 segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+                row: 0,
+                column: 0,
                 materialParameters: {
                     color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
                     mapUrl: description.wall.maps.color.url,
@@ -148,7 +123,6 @@ export default class FloorPlan extends THREE.Group {
             });
             // Build the maze
             let clonedWall;
-            let clonedDoor;
             let clonedElevator;
             this.aabb = [];
             for (let i = 0; i <= this.size.depth; i++) { // In order to represent the southmost walls, the map depth is one row greater than the actual maze depth
@@ -180,34 +154,154 @@ export default class FloorPlan extends THREE.Group {
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
                     if (this.map[i][j] === 4 || this.map[i][j] === 8) {
-                        clonedDoor = door.clone();
+                        const clonedDoor = new Door({
+                            groundHeight: description.ground.size.height,
+                            segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+                            row: 0,
+                            column: 0,
+                            materialParameters: {
+                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
+                                mapUrl: description.wall.maps.color.url,
+                                aoMapUrl: description.wall.maps.ao.url,
+                                aoMapIntensity: description.wall.maps.ao.intensity,
+                                displacementMapUrl: description.wall.maps.displacement.url,
+                                displacementScale: description.wall.maps.displacement.scale,
+                                displacementBias: description.wall.maps.displacement.bias,
+                                normalMapUrl: description.wall.maps.normal.url,
+                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
+                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
+                                bumpMapUrl: description.wall.maps.bump.url,
+                                bumpScale: description.wall.maps.bump.scale,
+                                roughnessMapUrl: description.wall.maps.roughness.url,
+                                roughness: description.wall.maps.roughness.rough,
+                                wrapS: wrappingModes[description.wall.wrapS],
+                                wrapT: wrappingModes[description.wall.wrapT],
+                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
+                                magFilter: magnificationFilters[description.wall.magFilter],
+                                minFilter: minificationFilters[description.wall.minFilter]
+                            },
+                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                        });
+                        clonedDoor.row = i;
+                        clonedDoor.column = j;
                         clonedDoor.position.set(j - this.halfSize.width + 0.5, 0.5, i - this.halfSize.depth);
                         this.add(clonedDoor);
+                        this.doors.push(clonedDoor);
                         this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
 
                     }
                     if (this.map[i][j] === 5 || this.map[i][j] === 9) {
-                        clonedDoor = door.clone();
-                        clonedDoor.rotateY(Math.PI / 2.0);
+                        const clonedDoor = new Door({
+                            groundHeight: description.ground.size.height,
+                            segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+                            row: 0,
+                            column: 0,
+                            materialParameters: {
+                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
+                                mapUrl: description.wall.maps.color.url,
+                                aoMapUrl: description.wall.maps.ao.url,
+                                aoMapIntensity: description.wall.maps.ao.intensity,
+                                displacementMapUrl: description.wall.maps.displacement.url,
+                                displacementScale: description.wall.maps.displacement.scale,
+                                displacementBias: description.wall.maps.displacement.bias,
+                                normalMapUrl: description.wall.maps.normal.url,
+                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
+                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
+                                bumpMapUrl: description.wall.maps.bump.url,
+                                bumpScale: description.wall.maps.bump.scale,
+                                roughnessMapUrl: description.wall.maps.roughness.url,
+                                roughness: description.wall.maps.roughness.rough,
+                                wrapS: wrappingModes[description.wall.wrapS],
+                                wrapT: wrappingModes[description.wall.wrapT],
+                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
+                                magFilter: magnificationFilters[description.wall.magFilter],
+                                minFilter: minificationFilters[description.wall.minFilter]
+                            },
+                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                        });
+                        clonedDoor.row = i;
+                        clonedDoor.column = j;
+                        clonedDoor.rotateY(Math.PI / 2.0);  
                         clonedDoor.position.set(j - this.halfSize.width, 0.5, i - this.halfSize.depth + 0.5);
                         this.add(clonedDoor);
+                        this.doors.push(clonedDoor);
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedDoor).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
                     if (this.map[i][j] === 6 || this.map[i][j] === 10) {
-                        clonedElevator = elevator.clone();
+                        const clonedElevator = new Elevator({
+                            groundHeight: description.ground.size.height,
+                            segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+                            row: 0,
+                            column: 0,
+                            materialParameters: {
+                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
+                                mapUrl: description.wall.maps.color.url,
+                                aoMapUrl: description.wall.maps.ao.url,
+                                aoMapIntensity: description.wall.maps.ao.intensity,
+                                displacementMapUrl: description.wall.maps.displacement.url,
+                                displacementScale: description.wall.maps.displacement.scale,
+                                displacementBias: description.wall.maps.displacement.bias,
+                                normalMapUrl: description.wall.maps.normal.url,
+                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
+                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
+                                bumpMapUrl: description.wall.maps.bump.url,
+                                bumpScale: description.wall.maps.bump.scale,
+                                roughnessMapUrl: description.wall.maps.roughness.url,
+                                roughness: description.wall.maps.roughness.rough,
+                                wrapS: wrappingModes[description.wall.wrapS],
+                                wrapT: wrappingModes[description.wall.wrapT],
+                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
+                                magFilter: magnificationFilters[description.wall.magFilter],
+                                minFilter: minificationFilters[description.wall.minFilter]
+                            },
+                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                        });
+                        clonedElevator.row = i;
+                        clonedElevator.column = j;
                         clonedElevator.position.set(j - this.halfSize.width + 0.5, 0.5, i - this.halfSize.depth);
                         this.add(clonedElevator);
+                        this.elevators.push(clonedElevator);
                         this.aabb[i][j][0] = new THREE.Box3().setFromObject(clonedElevator).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][0], this.helpersColor));
 
                     }
                     if (this.map[i][j] === 7 || this.map[i][j] === 11) {
-                        clonedElevator = elevator.clone();
+                        const clonedElevator = new Elevator({
+                            groundHeight: description.ground.size.height,
+                            segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
+                            row: 0,
+                            column: 0,
+                            materialParameters: {
+                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
+                                mapUrl: description.wall.maps.color.url,
+                                aoMapUrl: description.wall.maps.ao.url,
+                                aoMapIntensity: description.wall.maps.ao.intensity,
+                                displacementMapUrl: description.wall.maps.displacement.url,
+                                displacementScale: description.wall.maps.displacement.scale,
+                                displacementBias: description.wall.maps.displacement.bias,
+                                normalMapUrl: description.wall.maps.normal.url,
+                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
+                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
+                                bumpMapUrl: description.wall.maps.bump.url,
+                                bumpScale: description.wall.maps.bump.scale,
+                                roughnessMapUrl: description.wall.maps.roughness.url,
+                                roughness: description.wall.maps.roughness.rough,
+                                wrapS: wrappingModes[description.wall.wrapS],
+                                wrapT: wrappingModes[description.wall.wrapT],
+                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
+                                magFilter: magnificationFilters[description.wall.magFilter],
+                                minFilter: minificationFilters[description.wall.minFilter]
+                            },
+                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                        });
+                        clonedElevator.row = i;
+                        clonedElevator.column = j;
                         clonedElevator.rotateY(Math.PI / 2.0);
                         clonedElevator.position.set(j - this.halfSize.width, 0.5, i - this.halfSize.depth + 0.5);
                         this.add(clonedElevator);
+                        this.elevators.push(clonedElevator);
                         this.aabb[i][j][1] = new THREE.Box3().setFromObject(clonedElevator).applyMatrix4(new THREE.Matrix4().makeScale(this.scale.x, this.scale.y, this.scale.z));
                         this.helper.add(new THREE.Box3Helper(this.aabb[i][j][1], this.helpersColor));
                     }
@@ -317,8 +411,24 @@ export default class FloorPlan extends THREE.Group {
         const column = indices[1] + offsets[1];
     
         const isDoor = this.map[row][column] === 4 || this.map[row][column] === 5 || this.map[row][column] === 8 || this.map[row][column] === 9;
-    
+
         if (isDoor) {
+            const doorPosition = new THREE.Vector3(
+                column - this.halfSize.width + 0.5,
+                0.5,
+                row - this.halfSize.depth
+            );
+            const distanceToDoor = position.distanceTo(doorPosition);
+    
+            if (distanceToDoor < 7.5) {
+                //console.log("Near the " + name + ".");
+    
+            
+                this.interactWithDoor(row, column);
+            
+            }
+        }
+        /*if (isDoor) {
             if (orientation !== 0) {
                 if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
                     console.log("Collision with " + name + ".");
@@ -330,18 +440,42 @@ export default class FloorPlan extends THREE.Group {
                     return true;
                 }
             }
-        }
+        }*/
     
         return false;
+    }
+
+    interactWithDoor(row, column) {
+        const currentDoor = this.doors.find(door => door.row === row && door.column === column);
+        //console.log('Row ' + row + ' Column ' + column);
+        if (currentDoor) {
+            currentDoor.openAnimation(); 
+        }
     }
 
     elevatorCollision(indices, offsets, orientation, position, delta, radius, name) {
         const row = indices[0] + offsets[0];
         const column = indices[1] + offsets[1];
     
-        const isDoor = this.map[row][column] === 10 || this.map[row][column] === 11 || this.map[row][column] === 6 || this.map[row][column] === 7;
+        const isElevator = this.map[row][column] === 10 || this.map[row][column] === 11 || this.map[row][column] === 6 || this.map[row][column] === 7;
     
-        if (isDoor) {
+        if (isElevator) {
+            const elevatorPosition = new THREE.Vector3(
+                column - this.halfSize.width + 0.5,
+                0.5,
+                row - this.halfSize.depth
+            );
+            const distanceToDoor = position.distanceTo(elevatorPosition);
+    
+            if (distanceToDoor < 7.5) {
+                //console.log("Near the " + name + ".");
+            
+                this.interactWithElevator(row, column);
+            
+            }
+        }
+
+        /*if (isElevator) {
             if (orientation !== 0) {
                 if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
                     console.log("Collision with " + name + ".");
@@ -353,9 +487,17 @@ export default class FloorPlan extends THREE.Group {
                     return true;
                 }
             }
-        }
+        }*/
     
         return false;
+    }
+
+    interactWithElevator(row, column) {
+        const currentElevator = this.elevators.find(door => door.row === row && door.column === column);
+        //console.log('Row ' + row + ' Column ' + column);
+        if (currentElevator) {
+            currentElevator.openAnimation(); 
+        }
     }
 
     // Detect collisions
@@ -369,7 +511,14 @@ export default class FloorPlan extends THREE.Group {
         const indices = this.cartesianToCell(position);
         if (method !== "obb-aabb") {
             if (
-
+                this.elevatorCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north elevator") || // Collision with north door
+                this.elevatorCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west elevator") || // Collision with west door
+                this.elevatorCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south elevator") || // Collision with south door
+                this.elevatorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east elevator") || 
+                this.doorCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north door") || // Collision with north door
+                this.doorCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west door") || // Collision with west door
+                this.doorCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south door") || // Collision with south door
+                this.doorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east door") || 
                 this.wallCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north wall") || // Collision with north wall
                 this.wallCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west wall") || // Collision with west wall
                 this.wallCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south wall") || // Collision with south wall
