@@ -31,10 +31,10 @@
         "primaryColor": "0xffffff",
         "maps": {
             "color": {
-                "url": "/textures/wood_floor/wood_0054_color_2k.jpg"
+                "url": "/textures/Plastic017A_2K-JPG/Plastic017A_2K-JPG_Color.jpg"
             },
             "ao": {
-                "url": "/textures/wood_floor/wood_0054_ao_2k.jpg",
+                "url": "",
                 "intensity": 1.0
             },
             "displacement": {
@@ -43,16 +43,16 @@
                 "bias": 0.0
             },
             "normal": {
-                "url": "/textures/wood_floor/wood_0054_normal_opengl_2k.png",
+                "url": "/textures/Plastic017A_2K-JPG/Plastic017A_2K-JPG_Color.jpg",
                 "type": 0,
-                "scale": { "x": 1.0, "y": 1.0 }
+                "scale": { "x": 0.5, "y": 0.5 }
             },
             "bump": {
                 "url": "",
                 "scale": 1.0
             },
             "roughness": {
-                "url": "/textures/wood_floor/wood_0054_roughness_2k.jpg",
+                "url": "/textures/Plastic017A_2K-JPG/Plastic017A_2K-JPG_Color.jpg",
                 "rough": 1.0
             }
         },

@@ -58,10 +58,10 @@
         "primaryColor": "0xffffff",
         "maps": {
             "color": {
-                "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_color_2k.jpg"
+                "url": "/textures/Plastic014A_2K-JPG/Plastic014A_2K-JPG_Color.jpg"
             },
             "ao": {
-                "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_ao_2k.jpg",
+                "url": "",
                 "intensity": 1.0
             },
             "displacement": {
@@ -70,7 +70,7 @@
                 "bias": 0.0
             },
             "normal": {
-                "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_normal_opengl_2k.png",
+                "url": "/textures/Plastic014A_2K-JPG/Plastic014A_2K-JPG_NormalGL.jpg",
                 "type": 0,
                 "scale": { "x": 0.5, "y": 0.5 }
                 },
@@ -79,7 +79,7 @@
                 "scale": 1.0
             },
             "roughness": {
-                "url": "/textures/plastic_0004_2k_rrF8ut/plastic_0004_roughness_2k.jpg",
+                "url": "/textures/Plastic014A_2K-JPG/Plastic014A_2K-JPG_Roughness.jpg",
                 "rough": 1.0
             }
         },
