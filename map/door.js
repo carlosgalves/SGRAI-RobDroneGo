@@ -86,10 +86,14 @@ export default class Door extends THREE.Group {
     }
 
     openAnimation() {
+        if (!this.group) {
+            console.error('Door not loaded yet.');
+            return;
+        }
         if (!this.open) {
             const initialDoorPosition = this.group.position.clone();
             const targetDoorPosition = new THREE.Vector3(initialDoorPosition.x + 0.9, initialDoorPosition.y, initialDoorPosition.z + 0.05);
-            const endPosition = new THREE.Vector3(initialDoorPosition.x - 0.025, initialDoorPosition.y, initialDoorPosition.z);
+            const endPosition = new THREE.Vector3(initialDoorPosition.x - 0.015, initialDoorPosition.y, initialDoorPosition.z);
             gsap.to(this.group.position, {
                 duration: 1,
                 x: targetDoorPosition.x,
@@ -105,7 +109,7 @@ export default class Door extends THREE.Group {
                         y: endPosition.y,
                         z: endPosition.z,
                         ease: "Power2.easeInOut",
-                        delay: 3,
+                        delay: 2,
                         onComplete: () => {
                             gsap.delayedCall(2, () => {
                                 this.open = false;
