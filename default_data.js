@@ -45,17 +45,7 @@ export const floorPlanData = {
     helpersColor: new THREE.Color(0xffffff)
 }
 
-export const playerData = {
-    url: "/player/model/gltf/RobotExpressive/RobotExpressive.glb",
-    credits: "Model and related code snippets created by <a href='https://www.patreon.com/quaternius' target='_blank' rel='noopener'>Tomás Laulhé</a>. CC0 1.0. Modified by <a href='https://donmccurdy.com/' target='_blank' rel='noopener'>Don McCurdy</a>.",
-    scale: new THREE.Vector3(0.1, 0.1, 0.1),
-    helpersColor: new THREE.Color(0xffffff),
-    walkingSpeed: 0.75,
-    defaultDirection: 0.0, // Expressed in degrees
-    turningSpeed: 75.0, // Expressed in degrees / second
-    runningFactor: 2.5, // Affects walking speed and turning speed
-    keyCodes: { realisticViewMode: "KeyR", fixedView: "Digit1", firstPersonView: "Digit2", thirdPersonView: "Digit3", topView: "Digit4", miniMap: "KeyM", statistics: "KeyZ", userInterface: "KeyU", help: "KeyH", boundingVolumes: "KeyB", ambientLight: "KeyA", directionalLight: "KeyD", spotLight: "KeyS", flashLight: "KeyF", shadows: "KeyX", fog: "KeyG", left: "ArrowLeft", right: "ArrowRight", backward: "ArrowDown", forward: "ArrowUp", jump: "KeyJ", yes: "KeyY", no: "KeyN", wave: "KeyW", punch: "KeyP", thumbsUp: "KeyT" }
-}
+
 
 export const ambientLightData = {
     visible: true,
@@ -166,8 +156,8 @@ export const shadowsData = {
 }
 
 export const fogData = {
-    enabled: false,
-    color: new THREE.Color(0xe0e0e0),
+    enabled: true,
+    color: new THREE.Color(0x323232),
     // The initial fog density varies depending on the camera; so, it is defined in cameraData
     densityMin: 0.01,
     densityMax: 1.0,
@@ -180,7 +170,7 @@ export const collisionDetectionData = {
 }
 
 export const cameraData = {
-    view: "fixed", // Fixed view: "fixed"; first-person view: "first-person"; third-person view: "third-person"; top view: "top"; mini-map: "mini-map"
+    view: "third-person", // Fixed view: "fixed"; first-person view: "first-person"; third-person view: "third-person"; top view: "top"; mini-map: "mini-map"
     backgroundColor: new THREE.Color(0x222222),
     frameColor: new THREE.Color(0xffffff),
     initialViewport: new THREE.Vector4(0.0, 0.0, 1.0, 1.0), // Viewport position and size: fraction of window width and window height; MUST BE REDEFINED when creating an instance of ThumbRaiser() so that each view is assigned a different viewport
@@ -204,5 +194,5 @@ export const cameraData = {
     initialFov: 45.0, // Field-of-view (expressed in degrees)
     near: 0.01, // Front clipping plane
     far: 100.0, // Back clipping plane
-    initialFogDensity: 0.00025 // Doesn't apply to mini-map camera
+    initialFogDensity: 0.01 // Doesn't apply to mini-map camera
 }
