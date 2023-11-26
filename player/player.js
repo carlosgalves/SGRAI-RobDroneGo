@@ -127,3 +127,22 @@ export default class Player extends THREE.Group {
         return [6, 7, 10, 11].includes(cellValue);
     }
 }
+
+export const playerController = {
+    url: "/player/model/gltf/RobotExpressive/RobotExpressive.glb",
+    credits: "Model and related code snippets created by <a href='https://www.patreon.com/quaternius' target='_blank' rel='noopener'>Tomás Laulhé</a>. CC0 1.0. Modified by <a href='https://donmccurdy.com/' target='_blank' rel='noopener'>Don McCurdy</a>.",
+    scale: new THREE.Vector3(0.1, 0.1, 0.1),
+    helpersColor: new THREE.Color(0xffffff),
+    walkingSpeed: 0.75,
+    defaultDirection: 0.0, // Expressed in degrees
+    turningSpeed: 75.0, // Expressed in degrees / second
+    runningFactor: 2.5, // Affects walking speed and turning speed
+    keyCodes: {
+        realisticViewMode: "Digit1", fixedView: "Digit2", firstPersonView: "Digit3", thirdPersonView: "Digit4", topView: "Digit5", miniMap: "KeyM",
+        statistics: "KeyZ", userInterface: "KeyU", help: "KeyH",
+        boundingVolumes: "KeyB", spotLight: "KeyG", flashLight: "KeyF",
+        /*ambientLight: "KeyL", directionalLight: "KeyP", shadows: "", fog: "", */
+        left: "KeyA", right: "KeyD", backward: "KeyS", forward: "KeyW", jump: "Space",
+        /* emotes should be used by accessing side menu instead of keyCodes */
+        yes: "Y", no: "N", wave: "", punch: "", thumbsUp: "" }
+}

@@ -16,7 +16,8 @@
 import * as THREE from "three";
 import Stats from "three/addons/libs/stats.module.js";
 import Orientation from "../orientation.js";
-import { generalData, audioData, cubeTextureData, floorPlanData, playerData, ambientLightData, directionalLightData, spotLightData, flashLightData, shadowsData, fogData, collisionDetectionData, cameraData } from "../default_data.js";
+import { generalData, audioData, cubeTextureData, floorPlanData, ambientLightData, directionalLightData, spotLightData, flashLightData, shadowsData, fogData, collisionDetectionData, cameraData } from "../default_data.js";
+import {playerController} from "../player/player.js";
 import { merge } from "../helpers/merge.js";
 import Audio from "../audio.js";
 import CubeTexture from "../cube_textures/cubetexture.js";
@@ -351,7 +352,7 @@ export default class Level {
         this.audioParameters = merge({}, audioData, audioParameters);
         this.cubeTexturesParameters = merge({}, cubeTextureData, cubeTexturesParameters);
         this.floorPlanParameters = merge({}, floorPlanData, floorPlanParameters);
-        this.playerParameters = merge({}, playerData, playerParameters);
+        this.playerParameters = merge({}, playerController, playerParameters);
         this.ambientLightParameters = merge({}, ambientLightData, ambientLightParameters);
         this.directionalLightParameters = merge({}, directionalLightData, directionalLightParameters);
         this.spotLightParameters = merge({}, spotLightData, spotLightParameters);
