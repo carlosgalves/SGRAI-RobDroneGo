@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { merge } from "../helpers/merge.js";
 import MultiTexturedMaterial from "../helpers/material.js";
 import { OBB } from "three/addons/math/OBB.js";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 
 /*
  * parameters = {
@@ -35,29 +37,102 @@ import { OBB } from "three/addons/math/OBB.js";
  */
 
 export default class Door extends THREE.Group {
+    initialDoorPosition = new THREE.Vector3();
     constructor(parameters) {
         super();
         merge(this, parameters);
         const halfGroundHeight = this.groundHeight / 2.0;
         this.open = false;
-        this.doorFaceLeft;
-        this.doorFaceLeft2;
-        this.doorFaceRight;
-        this.doorFaceRight2;
+        //this.doorFaceLeft;
+        //this.doorFaceLeft2;
+        //this.doorFaceRight;
+        //this.doorFaceRight2;
         // Create the materials
         const primaryMaterial = new MultiTexturedMaterial(this.materialParameters);
-        const secondaryMaterial = new THREE.MeshStandardMaterial({ color: this.secondaryColor });
-        
-        const doorMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+        const secondaryMaterial = new THREE.MeshStandardMaterial({color: this.secondaryColor});
+
+        const doorMaterial = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide});
+
+        // Load the door model
+        const mtlLoader = new MTLLoader();
+        const objLoader = new OBJLoader();
+        this.initialDoorPosition.copy(this.position);
+
+        // Load MTL file
+        mtlLoader.load('../door/sliding-door-001-obj/sliding-door-001.mtl', (materials) => {
+            materials.preload();
+            objLoader.setMaterials(materials);
+            objLoader.load('../door/sliding-door-001-obj/sliding-door-001.obj', (object) => {
+                object.position.set(0, -0.5, 0);
+                object.scale.set(1.1, 0.472, 1);
+                this.add(object);
+            });
+        });
+    }
+
+    openAnimation() {
+        this.initialDoorPosition.copy(this.position);
+        const targetDoorPosition = new THREE.Vector3(this.initialDoorPosition.x + 0.9, this.initialDoorPosition.y, this.initialDoorPosition.z + 0.01);
+        console.log('OpenAnimation-Initial Position:', this.position.clone());
+        console.log('OpenAnimation-Final Position:', targetDoorPosition);
+        if (!this.open) {
+            gsap.to(this.position, {
+                duration: 1,
+                x: targetDoorPosition.x,
+                z: targetDoorPosition.z,
+                ease: "Power2.easeInOut",
+                /*onUpdate: () => {
+                    // Manually update the position during the animation
+                    this.position.x = this.position.x; // This line might be necessary
+                    this.position.z = this.position.z; // This line might be necessary
+                },*/
+                onComplete: () => {
+                    gsap.to((this.position), {
+                            duration: 1,
+                            x: this.initialDoorPosition.x,
+                            z: this.initialDoorPosition.z,
+                            ease: "Power2.easeInOut",
+                            delay: 3,
+                        }
+                    );
+                }
+            });
+        }
+
+    /*closeAnimation() {
+
+        if (this.open) {
+            console.log('CloseAnimation-Initial Position:', this.position.clone());
+            const targetDoorPosition = new THREE.Vector3(this.initialDoorPosition.x + 0.9, this.initialDoorPosition.y, this.initialDoorPosition.z + 0.01);
+            console.log('CloseAnimation-Target Position', this.initialDoorPosition.clone());
+            gsap.to(this.position, {
+                duration: 1,
+                x: this.initialDoorPosition.x,
+                z: this.initialDoorPosition.z,
+                ease: "Power2.easeInOut",
+                onUpdate: () => {
+                    // Manually update the position during the animation
+                    this.position.x = this.position.x; // This line might be necessary
+                    this.position.z = this.position.z; // This line might be necessary
+                },
+
+                onComplete: () => {
+                    console.log('Door is closed');
+                    this.open = false;
+                },
+            });
+        }
+    }*/
+
 
         // Create a wall (seven faces) that casts and receives shadows
 
         // Create the front face (a rectangle)
-        let geometry = new THREE.PlaneGeometry(0.49, 1 + this.groundHeight, this.segments.x, this.segments.y);
+        /*let geometry = new THREE.PlaneGeometry(0.49, 1 + this.groundHeight, this.segments.x, this.segments.y);
         let uv = geometry.getAttribute("uv");
         let uv1 = uv.clone();
         geometry.setAttribute("uv1", uv1); // The aoMap requires a second set of UVs: https://threejs.org/docs/index.html?q=meshstand#api/en/materials/MeshStandardMaterial.aoMap
-        
+
         this.doorFaceRight = new THREE.Mesh(geometry, doorMaterial);
         this.doorFaceRight.position.set(0.23, -halfGroundHeight, 0.025);
         this.doorFaceRight.castShadow = true;
@@ -69,7 +144,7 @@ export default class Door extends THREE.Group {
         this.doorFaceRight2.position.set(0.23, -halfGroundHeight, -0.025);
         this.add(this.doorFaceRight2);
 
-        
+
         this.doorFaceLeft = new THREE.Mesh(geometry, doorMaterial);
         this.doorFaceLeft.castShadow = true;
         this.doorFaceLeft.receiveShadow = true;
@@ -87,7 +162,7 @@ export default class Door extends THREE.Group {
             -0.475, 0.5, 0.025,
             -0.5, 0.5, 0.0,
             -0.5, -0.5 - this.groundHeight, 0.0,
-        
+
             -0.5, 0.5, 0.0,
             -0.475, 0.5, -0.025,
             -0.475, -0.5 - this.groundHeight, -0.025,
@@ -230,7 +305,7 @@ export default class Door extends THREE.Group {
                             y: [initialLeftFacePosition.y],
                             z: [initialLeftFacePosition.z],
                             ease: "Power2.easeInOut",
-                            delay: 3, 
+                            delay: 3,
                         });
                     }
                 });
@@ -248,14 +323,13 @@ export default class Door extends THREE.Group {
                             y: [initialLeftFace2Position.y],
                             z: [initialLeftFace2Position.z],
                             ease: "Power2.easeInOut",
-                            delay: 3, 
+                            delay: 3,
                             onComplete: () => {
                             this.open = false;
                             }
-                        }); 
+                        });
                     }
                 });
-        }
+        }*/
     }
-
 }

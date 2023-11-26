@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { merge } from "../helpers/merge.js";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import MultiTexturedMaterial from "../helpers/material.js";
 
 /*
@@ -40,13 +42,33 @@ export default class Elevator extends THREE.Group {
         const halfGroundHeight = this.groundHeight / 2.0;
 
         this.open = false;
-        this.elevatorFaceLeft;
+        /*this.elevatorFaceLeft;
         this.elevatorFaceLeft2;
         this.elevatorFaceRight;
-        this.elevatorFaceRight2;
+        this.elevatorFaceRight2;*/
+
+        // Load the elevator model
+        const mtlLoader = new MTLLoader();
+        const objLoader = new OBJLoader();
+        this.targetPosition = new THREE.Vector3(0, 0, 0);
+
+        // Load MTL file
+        mtlLoader.load('../elevator/source/elevator.mtl', (materials) => {
+            materials.preload();
+            objLoader.setMaterials(materials);
+            objLoader.load('../elevator/source/elevator.obj', (object) => {
+                object.position.set(0, 0.32, 0);
+                object.scale.set(0.005, 0.005, 0.005);
+                this.add(object);
+            });
+        });
+    }
+
+
+
 
         // Create the materials
-        const primaryMaterial = new MultiTexturedMaterial(this.materialParameters);
+        /*const primaryMaterial = new MultiTexturedMaterial(this.materialParameters);
         const secondaryMaterial = new THREE.MeshStandardMaterial({ color: this.secondaryColor });
         
         const elevatorMaterial = new THREE.MeshBasicMaterial( {color: 0xff8000, side: THREE.DoubleSide} );
@@ -82,12 +104,12 @@ export default class Elevator extends THREE.Group {
 
     
         // Create the rear face (a rectangle)
-      /*  face = new THREE.Mesh().copy(face, false);
+        face = new THREE.Mesh().copy(face, false);
         face.rotation.y = Math.PI;
         face.position.set(0.0, -halfGroundHeight, -0.025);
         this.add(face);
-*/
-        // Create the two left faces (a four-triangle mesh)
+
+        //Create the two left faces (a four-triangle mesh)
         let points = new Float32Array([
             -0.475, -0.5 - this.groundHeight, 0.025,
             -0.475, 0.5, 0.025,
@@ -166,66 +188,66 @@ export default class Elevator extends THREE.Group {
         this.children.forEach(mesh => {
             elevator.add(mesh.clone());
         });
-        return elevator;
-    }
+        return elevator;*/
+
+
 
     openAnimation() {
 
-        const initialRightFacePosition = this.elevatorFaceRight.position.clone();
-        const initialRightFace2Position = this.elevatorFaceRight.position.clone();
-        const initialLeftFacePosition = this.elevatorFaceLeft.position.clone();
-        const initialLeftFace2Position = this.elevatorFaceLeft2.position.clone();
+    /*const initialRightFacePosition = this.elevatorFaceRight.position.clone();
+    const initialRightFace2Position = this.elevatorFaceRight.position.clone();
+    const initialLeftFacePosition = this.elevatorFaceLeft.position.clone();
+    const initialLeftFace2Position = this.elevatorFaceLeft2.position.clone();
 
-        const targetPositionRight = new THREE.Vector3(initialRightFacePosition.x + 1, initialRightFacePosition.y, initialRightFacePosition.z);
-        const targetPositionRight2 = new THREE.Vector3(initialRightFace2Position.x + 1, initialRightFace2Position.y, initialRightFace2Position.z);
-        const targetPositionLeft = new THREE.Vector3(initialLeftFacePosition.x + 0.4, initialLeftFacePosition.y, initialLeftFacePosition.z);
-        const targetPositionLeft2 = new THREE.Vector3(initialLeftFace2Position.x + 0.4, initialLeftFace2Position.y, initialLeftFace2Position.z);
+    const targetPositionRight = new THREE.Vector3(initialRightFacePosition.x + 1, initialRightFacePosition.y, initialRightFacePosition.z);
+    const targetPositionRight2 = new THREE.Vector3(initialRightFace2Position.x + 1, initialRightFace2Position.y, initialRightFace2Position.z);
+    const targetPositionLeft = new THREE.Vector3(initialLeftFacePosition.x + 0.4, initialLeftFacePosition.y, initialLeftFacePosition.z);
+    const targetPositionLeft2 = new THREE.Vector3(initialLeftFace2Position.x + 0.4, initialLeftFace2Position.y, initialLeftFace2Position.z);
 
 
-        //const targetPosition = new THREE.Vector3(initialPosition.x, initialPosition.y + 0.5, initialPosition.z);
-        //let targetRotation = new THREE.Euler(initialRotation.x + Math.PI/2, initialRotation.y, initialRotation.z );
-        if (this.rotation.y == Math.PI/2) {
-          //  targetRotation = new THREE.Euler(Math.PI/2 , initialRotation.y, initialRotation.z );
-        }
-        if (!this.open) {
-              gsap.to([this.elevatorFaceLeft.position], {
-                    duration: 1,
-                    x: [targetPositionLeft.x],
-                    y: [targetPositionLeft.y],
-                    z: [targetPositionLeft.z],
-                    ease: "Power2.easeInOut",
-                    onComplete: () => {
-                        gsap.to([this.elevatorFaceLeft.position], {
-                            duration: 1,
-                            x: [initialLeftFacePosition.x],
-                            y: [initialLeftFacePosition.y],
-                            z: [initialLeftFacePosition.z],
-                            ease: "Power2.easeInOut",
-                            delay: 3, 
-                        });                    }
-                });
-                gsap.to([this.elevatorFaceLeft2.position], {
-                    duration: 1,
-                    x: [targetPositionLeft2.x],
-                    y: [targetPositionLeft2.y],
-                    z: [targetPositionLeft2.z],
-                    ease: "Power2.easeInOut",
-                    onComplete: () => {
-                        this.open = true;
-                        gsap.to([this.elevatorFaceLeft2.position], {
-                            duration: 1,
-                            x: [initialLeftFace2Position.x],
-                            y: [initialLeftFace2Position.y],
-                            z: [initialLeftFace2Position.z],
-                            ease: "Power2.easeInOut",
-                            delay: 3, 
-                            onComplete: () => {
-                            this.open = false;
-                            }
-                        }); 
-                    }
-                });
-        }
+    //const targetPosition = new THREE.Vector3(initialPosition.x, initialPosition.y + 0.5, initialPosition.z);
+    //let targetRotation = new THREE.Euler(initialRotation.x + Math.PI/2, initialRotation.y, initialRotation.z );
+    if (this.rotation.y == Math.PI/2) {
+      //  targetRotation = new THREE.Euler(Math.PI/2 , initialRotation.y, initialRotation.z );
+    }
+    if (!this.open) {
+          gsap.to([this.elevatorFaceLeft.position], {
+                duration: 1,
+                x: [targetPositionLeft.x],
+                y: [targetPositionLeft.y],
+                z: [targetPositionLeft.z],
+                ease: "Power2.easeInOut",
+                onComplete: () => {
+                    gsap.to([this.elevatorFaceLeft.position], {
+                        duration: 1,
+                        x: [initialLeftFacePosition.x],
+                        y: [initialLeftFacePosition.y],
+                        z: [initialLeftFacePosition.z],
+                        ease: "Power2.easeInOut",
+                        delay: 3,
+                    });                    }
+            });
+            gsap.to([this.elevatorFaceLeft2.position], {
+                duration: 1,
+                x: [targetPositionLeft2.x],
+                y: [targetPositionLeft2.y],
+                z: [targetPositionLeft2.z],
+                ease: "Power2.easeInOut",
+                onComplete: () => {
+                    this.open = true;
+                    gsap.to([this.elevatorFaceLeft2.position], {
+                        duration: 1,
+                        x: [initialLeftFace2Position.x],
+                        y: [initialLeftFace2Position.y],
+                        z: [initialLeftFace2Position.z],
+                        ease: "Power2.easeInOut",
+                        delay: 3,
+                        onComplete: () => {
+                        this.open = false;
+                        }
+                    });
+                }
+            });*/
     }
 
 

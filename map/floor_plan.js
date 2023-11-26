@@ -419,14 +419,11 @@ export default class FloorPlan extends THREE.Group {
                 row - this.halfSize.depth
             );
             const distanceToDoor = position.distanceTo(doorPosition);
-    
-            if (distanceToDoor < 7.5) {
-                //console.log("Near the " + name + ".");
-    
+
+            //console.log("Near the " + name + ".");
+            this.interactWithDoor(row, column, distanceToDoor);
             
-                this.interactWithDoor(row, column);
-            
-            }
+
         }
         /*if (isDoor) {
             if (orientation !== 0) {
@@ -445,12 +442,15 @@ export default class FloorPlan extends THREE.Group {
         return false;
     }
 
-    interactWithDoor(row, column) {
+    interactWithDoor(row, column, distanceToDoor) {
         const currentDoor = this.doors.find(door => door.row === row && door.column === column);
+
+        console.log('currentDoor:', currentDoor, 'distanceToDoor:', distanceToDoor);
         //console.log('Row ' + row + ' Column ' + column);
-        if (currentDoor) {
+        if (currentDoor && distanceToDoor < 7.5) {
             currentDoor.openAnimation(); 
         }
+
     }
 
     elevatorCollision(indices, offsets, orientation, position, delta, radius, name) {
