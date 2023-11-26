@@ -170,7 +170,7 @@ export const collisionDetectionData = {
 }
 
 export const cameraData = {
-    view: "fixed", // Fixed view: "fixed"; first-person view: "first-person"; third-person view: "third-person"; top view: "top"; mini-map: "mini-map"
+    view: "third-person", // Fixed view: "fixed"; first-person view: "first-person"; third-person view: "third-person"; top view: "top"; mini-map: "mini-map"
     backgroundColor: new THREE.Color(0x222222),
     frameColor: new THREE.Color(0xffffff),
     initialViewport: new THREE.Vector4(0.0, 0.0, 1.0, 1.0), // Viewport position and size: fraction of window width and window height; MUST BE REDEFINED when creating an instance of ThumbRaiser() so that each view is assigned a different viewport
