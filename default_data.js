@@ -156,8 +156,8 @@ export const shadowsData = {
 }
 
 export const fogData = {
-    enabled: false,
-    color: new THREE.Color(0xe0e0e0),
+    enabled: true,
+    color: new THREE.Color(0x323232),
     // The initial fog density varies depending on the camera; so, it is defined in cameraData
     densityMin: 0.01,
     densityMax: 1.0,
@@ -194,5 +194,5 @@ export const cameraData = {
     initialFov: 45.0, // Field-of-view (expressed in degrees)
     near: 0.01, // Front clipping plane
     far: 100.0, // Back clipping plane
-    initialFogDensity: 0.00025 // Doesn't apply to mini-map camera
+    initialFogDensity: 0.01 // Doesn't apply to mini-map camera
 }
