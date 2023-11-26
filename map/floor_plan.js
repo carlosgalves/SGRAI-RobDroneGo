@@ -445,7 +445,7 @@ export default class FloorPlan extends THREE.Group {
     interactWithDoor(row, column, distanceToDoor) {
         const currentDoor = this.doors.find(door => door.row === row && door.column === column);
 
-        console.log('currentDoor:', currentDoor, 'distanceToDoor:', distanceToDoor);
+       // console.log('currentDoor:', currentDoor, 'distanceToDoor:', distanceToDoor);
         //console.log('Row ' + row + ' Column ' + column);
         if (currentDoor && distanceToDoor < 7.5) {
             currentDoor.openAnimation(); 
