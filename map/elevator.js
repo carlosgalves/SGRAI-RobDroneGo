@@ -57,8 +57,8 @@ export default class Elevator extends THREE.Group {
             materials.preload();
             objLoader.setMaterials(materials);
             objLoader.load('../elevator/source/elevator.obj', (object) => {
-                object.position.set(0, 0.32, 0);
-                object.scale.set(0.005, 0.005, 0.005);
+                object.position.set(0, 0.34, 0);
+                object.scale.set(0.005, 0.004, 0.005);
                 this.add(object);
             });
         });
