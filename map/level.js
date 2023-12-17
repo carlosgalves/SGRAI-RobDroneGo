@@ -1283,74 +1283,74 @@ export default class Level {
             // Update the player
             if (!this.animations.actionInProgress) {
                 // Check if the player found the exit
-                    let coveredDistance = this.player.walkingSpeed * deltaT;
-                    let directionIncrement = this.player.turningSpeed * deltaT;
-                    if (this.player.shiftKey) {
-                        coveredDistance *= this.player.runningFactor;
-                        directionIncrement *= this.player.runningFactor;
+                let coveredDistance = this.player.walkingSpeed * deltaT;
+                let directionIncrement = this.player.turningSpeed * deltaT;
+                if (this.player.shiftKey) {
+                    coveredDistance *= this.player.runningFactor;
+                    directionIncrement *= this.player.runningFactor;
+                }
+                let playerTurned = false;
+                let directionDeg = this.player.direction;
+                if (this.player.keyStates.left) {
+                    playerTurned = true;
+                    directionDeg += directionIncrement;
+                }
+                else if (this.player.keyStates.right) {
+                    playerTurned = true;
+                    directionDeg -= directionIncrement;
+                }
+                const directionRad = THREE.MathUtils.degToRad(directionDeg);
+                let playerMoved = false;
+                const position = this.player.position.clone();
+                if (this.player.keyStates.backward) {
+                    playerMoved = true;
+                    position.sub(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
+                }
+                else if (this.player.keyStates.forward) {
+                    playerMoved = true;
+                    position.add(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
+                }
+                if (this.floorPlan.collision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection)) {
+                    this.audio.play(this.audio.deathClips, false);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_BoxTransitionOut", 0.1);
+                }
+                else if (this.player.keyStates.jump) {
+                    this.audio.play(this.audio.jumpClips, true);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Jump", 0.2);
+                }
+                else if (this.player.keyStates.yes) {
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Flip", 0.2);
+                }
+                else if (this.player.keyStates.no) {
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_DefaultPose", 0.2);
+                }
+                else if (this.player.keyStates.wave) {
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_ToyBoxPoseA", 0.2);
+                }
+                else if (this.player.keyStates.punch) {
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_AttackLeft", 0.2);
+                }
+                else if (this.player.keyStates.thumbsUp) {
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Dance", 0.2);
+                }
+                else {
+                    if (playerTurned) {
+                        this.player.direction = directionDeg;
                     }
-                    let playerTurned = false;
-                    let directionDeg = this.player.direction;
-                    if (this.player.keyStates.left) {
-                        playerTurned = true;
-                        directionDeg += directionIncrement;
-                    }
-                    else if (this.player.keyStates.right) {
-                        playerTurned = true;
-                        directionDeg -= directionIncrement;
-                    }
-                    const directionRad = THREE.MathUtils.degToRad(directionDeg);
-                    let playerMoved = false;
-                    const position = this.player.position.clone();
-                    if (this.player.keyStates.backward) {
-                        playerMoved = true;
-                        position.sub(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
-                    }
-                    else if (this.player.keyStates.forward) {
-                        playerMoved = true;
-                        position.add(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
-                    }
-                    if (this.floorPlan.collision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection)) {
-                        this.audio.play(this.audio.deathClips, false);
-                        this.animations.fadeToAction("Death", 0.2);
-                    }
-                    else if (this.player.keyStates.jump) {
-                        this.audio.play(this.audio.jumpClips, true);
-                        this.animations.fadeToAction("Jump", 0.2);
-                    }
-                    else if (this.player.keyStates.yes) {
-                        this.animations.fadeToAction("Yes", 0.2);
-                    }
-                    else if (this.player.keyStates.no) {
-                        this.animations.fadeToAction("No", 0.2);
-                    }
-                    else if (this.player.keyStates.wave) {
-                        this.animations.fadeToAction("Wave", 0.2);
-                    }
-                    else if (this.player.keyStates.punch) {
-                        this.animations.fadeToAction("Punch", 0.2);
-                    }
-                    else if (this.player.keyStates.thumbsUp) {
-                        this.animations.fadeToAction("ThumbsUp", 0.2);
+                    if (playerMoved) {
+                        this.animations.fadeToAction(this.player.shiftKey ? "SK_BoxyBoo.ao|A_Boxy_JumpAbilityAirborne" : "SK_BoxyBoo.ao|A_Boxy_Walk", 0.2);
+                        this.player.position.set(position.x, position.y, position.z);
                     }
                     else {
-                        if (playerTurned) {
-                            this.player.direction = directionDeg;
+                        if (this.animations.idleTimeOut()) {
+                            this.animations.resetIdleTime();
+                            this.audio.play(this.audio.idleClips, false);
                         }
-                        if (playerMoved) {
-                            this.animations.fadeToAction(this.player.shiftKey ? "Running" : "Walking", 0.2);
-                            this.player.position.set(position.x, position.y, position.z);
-                        }
-                        else {
-                            if (this.animations.idleTimeOut()) {
-                                this.animations.resetIdleTime();
-                                this.audio.play(this.audio.idleClips, false);
-                            }
-                            this.animations.fadeToAction("Idle", this.animations.activeName != "Death" ? 0.2 : 0.6);
-                        }
+                        this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Idle", this.animations.activeName != "SK_BoxyBoo.ao|A_Boxy_BoxTransitionOut  " ? 0.2 : 0.6);
                     }
+                }
 
-                    this.player.rotation.y = directionRad - this.player.defaultDirection;
+                this.player.rotation.y = directionRad - this.player.defaultDirection;
             }
 
             // Update the flashlight, first-person view, third-person view and top view camera parameters (player orientation and target)

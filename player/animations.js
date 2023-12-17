@@ -2,8 +2,8 @@ import * as THREE from "three";
 
 export default class Animations {
     constructor(object) {
-        this.states = ["Idle", "Walking", "Running", "Dance", "Death", "Sitting", "Standing"];
-        this.emotes = ["Jump", "Yes", "No", "Wave", "Punch", "ThumbsUp"];
+        this.states = ["SK_BoxyBoo.ao|A_Boxy_Idle", "SK_BoxyBoo.ao|A_Boxy_Walk", "SK_BoxyBoo.ao|A_Boxy_JumpAbilityAirborne", "SK_BoxyBoo.ao|A_Boxy_Dance", "SK_BoxyBoo.ao|A_Boxy_BoxTransitionOut", "Sitting", "Standing"];
+        this.emotes = ["SK_BoxyBoo.ao|A_Boxy_Jump", "SK_BoxyBoo.ao|A_Boxy_DefaultPose", "SK_BoxyBoo.ao|A_Boxy_Flip", "SK_BoxyBoo.ao|A_Boxy_ToyBoxPoseA", "SK_BoxyBoo.ao|A_Boxy_AttackLeft", "ThumbsUp"];
 
         this.mixer = new THREE.AnimationMixer(object);
         this.actionInProgress = false;
@@ -19,7 +19,7 @@ export default class Animations {
             }
         }
         this.resetIdleTime();
-        this.activeName = "Idle";
+        this.activeName = "SK_BoxyBoo.ao|A_Boxy_Idle";
         this.actions[this.activeName].play();
     }
 
@@ -35,11 +35,11 @@ export default class Animations {
                 .fadeIn(duration)
                 .play();
             // Some actions must not be interrupted
-            if (this.activeName != "Idle" && this.activeName != "Walking" && this.activeName != "Running") {
+            if (this.activeName != "SK_BoxyBoo.ao|A_Boxy_Idle" && this.activeName != "SK_BoxyBoo.ao|A_Boxy_JumpAbilityAirborne" && this.activeName != "SK_BoxyBoo.ao|A_Boxy_Walk") {
                 this.mixer.addEventListener("finished", event => this.actionFinished(event));
                 this.actionInProgress = true;
             }
-            if (this.activeName != "Idle") {
+            if (this.activeName != "SK_BoxyBoo.ao|A_Boxy_Idle") {
                 this.resetIdleTime();
             }
         }
@@ -69,7 +69,7 @@ export default class Animations {
         if (this.mixer) {
             this.mixer.update(deltaT);
         }
-        if (this.activeName == "Idle") {
+        if (this.activeName == "SK_BoxyBoo.ao|A_Boxy_Idle") {
             this.updateIdleTime(deltaT);
         }
     }

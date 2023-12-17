@@ -30,6 +30,9 @@ export default class Player extends THREE.Group {
         this.loaded = false;
 
         this.onLoad = function (description) {
+            /*description.scene.traverse(child => {
+                console.log(child.name);
+            });*/
             this.add(description.scene);
             this.animations = description.animations;
 
@@ -53,14 +56,15 @@ export default class Player extends THREE.Group {
             this.radius = (this.halfSize.x + this.halfSize.z) / 2.0;
 
             // Get the objects's body, face and head end
-            this.body = this.getObjectByName("Body"); // When visible, collision helpers are children of the body
-            this.face = this.getObjectByName("Head_4"); // Required for computing the target of flashlight, first-person, third-person, and top-view cameras
-            this.headEnd = this.getObjectByName("Head_end"); // Required by realistic view mode
+            this.body = this.getObjectByName("SK_BoxyBoomo"); // When visible, collision helpers are children of the body
+            this.face = this.getObjectByName("head_main_JNT_055"); // Required for computing the target of flashlight, first-person, third-person, and top-view cameras
+            this.headEnd = this.getObjectByName("head_main_JNT_055"); // Required by realistic view mode
 
             // Compute the body position and scale in world space
             this.body.worldPosition = new THREE.Vector3();
-            this.body.getWorldPosition(this.body.worldPosition);
             this.body.worldScale = new THREE.Vector3();
+
+            this.body.getWorldPosition(this.body.worldPosition);
             this.body.getWorldScale(this.body.worldScale);
 
             // Compute the face position in world space
@@ -129,9 +133,9 @@ export default class Player extends THREE.Group {
 }
 
 export const playerController = {
-    url: "/player/model/gltf/RobotExpressive/RobotExpressive.glb",
-    credits: "Model and related code snippets created by <a href='https://www.patreon.com/quaternius' target='_blank' rel='noopener'>Tomás Laulhé</a>. CC0 1.0. Modified by <a href='https://donmccurdy.com/' target='_blank' rel='noopener'>Don McCurdy</a>.",
-    scale: new THREE.Vector3(0.1, 0.1, 0.1),
+    url: "/player/puppyModel/project_playtime_boxy_boo.glb",
+    credits: "Model created by <a href='https://sketchfab.com/3d-models/project-playtime-boxy-boo-ce0d9aa6de2140ecaf6d4b9c2d96820a' target='_blank' rel='noopener'>RaySharkG1</a>",
+    scale: new THREE.Vector3(0.25, 0.25, 0.25),
     helpersColor: new THREE.Color(0xffffff),
     walkingSpeed: 0.75,
     defaultDirection: 0.0, // Expressed in degrees

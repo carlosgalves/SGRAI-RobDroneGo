@@ -518,7 +518,7 @@ export default class FloorPlan extends THREE.Group {
                 this.doorCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north door") || // Collision with north door
                 this.doorCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west door") || // Collision with west door
                 this.doorCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south door") || // Collision with south door
-                this.doorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east door") || 
+                this.doorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east door")  ||
                 this.wallCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north wall") || // Collision with north wall
                 this.wallCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west wall") || // Collision with west wall
                 this.wallCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south wall") || // Collision with south wall
