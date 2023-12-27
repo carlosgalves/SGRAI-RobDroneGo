@@ -93,37 +93,9 @@ export default class FloorPlan extends THREE.Group {
                 },
                 secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
             });
-            const elevator = new Elevator({
-                groundHeight: description.ground.size.height,
-                segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
-                row: 0,
-                column: 0,
-                materialParameters: {
-                    color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
-                    mapUrl: description.wall.maps.color.url,
-                    aoMapUrl: description.wall.maps.ao.url,
-                    aoMapIntensity: description.wall.maps.ao.intensity,
-                    displacementMapUrl: description.wall.maps.displacement.url,
-                    displacementScale: description.wall.maps.displacement.scale,
-                    displacementBias: description.wall.maps.displacement.bias,
-                    normalMapUrl: description.wall.maps.normal.url,
-                    normalMapType: normalMapTypes[description.wall.maps.normal.type],
-                    normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
-                    bumpMapUrl: description.wall.maps.bump.url,
-                    bumpScale: description.wall.maps.bump.scale,
-                    roughnessMapUrl: description.wall.maps.roughness.url,
-                    roughness: description.wall.maps.roughness.rough,
-                    wrapS: wrappingModes[description.wall.wrapS],
-                    wrapT: wrappingModes[description.wall.wrapT],
-                    repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
-                    magFilter: magnificationFilters[description.wall.magFilter],
-                    minFilter: minificationFilters[description.wall.minFilter]
-                },
-                secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
-            });
+
             // Build the maze
             let clonedWall;
-            let clonedElevator;
             this.aabb = [];
             for (let i = 0; i <= this.size.depth; i++) { // In order to represent the southmost walls, the map depth is one row greater than the actual maze depth
                 this.aabb[i] = [];
@@ -158,29 +130,7 @@ export default class FloorPlan extends THREE.Group {
                             groundHeight: description.ground.size.height,
                             segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
                             row: 0,
-                            column: 0,
-                            materialParameters: {
-                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
-                                mapUrl: description.wall.maps.color.url,
-                                aoMapUrl: description.wall.maps.ao.url,
-                                aoMapIntensity: description.wall.maps.ao.intensity,
-                                displacementMapUrl: description.wall.maps.displacement.url,
-                                displacementScale: description.wall.maps.displacement.scale,
-                                displacementBias: description.wall.maps.displacement.bias,
-                                normalMapUrl: description.wall.maps.normal.url,
-                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
-                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
-                                bumpMapUrl: description.wall.maps.bump.url,
-                                bumpScale: description.wall.maps.bump.scale,
-                                roughnessMapUrl: description.wall.maps.roughness.url,
-                                roughness: description.wall.maps.roughness.rough,
-                                wrapS: wrappingModes[description.wall.wrapS],
-                                wrapT: wrappingModes[description.wall.wrapT],
-                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
-                                magFilter: magnificationFilters[description.wall.magFilter],
-                                minFilter: minificationFilters[description.wall.minFilter]
-                            },
-                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                            column: 0
                         });
                         clonedDoor.row = i;
                         clonedDoor.column = j;
@@ -196,29 +146,7 @@ export default class FloorPlan extends THREE.Group {
                             groundHeight: description.ground.size.height,
                             segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
                             row: 0,
-                            column: 0,
-                            materialParameters: {
-                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
-                                mapUrl: description.wall.maps.color.url,
-                                aoMapUrl: description.wall.maps.ao.url,
-                                aoMapIntensity: description.wall.maps.ao.intensity,
-                                displacementMapUrl: description.wall.maps.displacement.url,
-                                displacementScale: description.wall.maps.displacement.scale,
-                                displacementBias: description.wall.maps.displacement.bias,
-                                normalMapUrl: description.wall.maps.normal.url,
-                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
-                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
-                                bumpMapUrl: description.wall.maps.bump.url,
-                                bumpScale: description.wall.maps.bump.scale,
-                                roughnessMapUrl: description.wall.maps.roughness.url,
-                                roughness: description.wall.maps.roughness.rough,
-                                wrapS: wrappingModes[description.wall.wrapS],
-                                wrapT: wrappingModes[description.wall.wrapT],
-                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
-                                magFilter: magnificationFilters[description.wall.magFilter],
-                                minFilter: minificationFilters[description.wall.minFilter]
-                            },
-                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                            column: 0
                         });
                         clonedDoor.row = i;
                         clonedDoor.column = j;
@@ -234,29 +162,7 @@ export default class FloorPlan extends THREE.Group {
                             groundHeight: description.ground.size.height,
                             segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
                             row: 0,
-                            column: 0,
-                            materialParameters: {
-                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
-                                mapUrl: description.wall.maps.color.url,
-                                aoMapUrl: description.wall.maps.ao.url,
-                                aoMapIntensity: description.wall.maps.ao.intensity,
-                                displacementMapUrl: description.wall.maps.displacement.url,
-                                displacementScale: description.wall.maps.displacement.scale,
-                                displacementBias: description.wall.maps.displacement.bias,
-                                normalMapUrl: description.wall.maps.normal.url,
-                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
-                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
-                                bumpMapUrl: description.wall.maps.bump.url,
-                                bumpScale: description.wall.maps.bump.scale,
-                                roughnessMapUrl: description.wall.maps.roughness.url,
-                                roughness: description.wall.maps.roughness.rough,
-                                wrapS: wrappingModes[description.wall.wrapS],
-                                wrapT: wrappingModes[description.wall.wrapT],
-                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
-                                magFilter: magnificationFilters[description.wall.magFilter],
-                                minFilter: minificationFilters[description.wall.minFilter]
-                            },
-                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                            column: 0
                         });
                         clonedElevator.row = i;
                         clonedElevator.column = j;
@@ -272,29 +178,7 @@ export default class FloorPlan extends THREE.Group {
                             groundHeight: description.ground.size.height,
                             segments: new THREE.Vector2(description.wall.segments.width, description.wall.segments.height),
                             row: 0,
-                            column: 0,
-                            materialParameters: {
-                                color: new THREE.Color(parseInt(description.wall.primaryColor, 16)),
-                                mapUrl: description.wall.maps.color.url,
-                                aoMapUrl: description.wall.maps.ao.url,
-                                aoMapIntensity: description.wall.maps.ao.intensity,
-                                displacementMapUrl: description.wall.maps.displacement.url,
-                                displacementScale: description.wall.maps.displacement.scale,
-                                displacementBias: description.wall.maps.displacement.bias,
-                                normalMapUrl: description.wall.maps.normal.url,
-                                normalMapType: normalMapTypes[description.wall.maps.normal.type],
-                                normalScale: new THREE.Vector2(description.wall.maps.normal.scale.x, description.wall.maps.normal.scale.y),
-                                bumpMapUrl: description.wall.maps.bump.url,
-                                bumpScale: description.wall.maps.bump.scale,
-                                roughnessMapUrl: description.wall.maps.roughness.url,
-                                roughness: description.wall.maps.roughness.rough,
-                                wrapS: wrappingModes[description.wall.wrapS],
-                                wrapT: wrappingModes[description.wall.wrapT],
-                                repeat: new THREE.Vector2(description.wall.repeat.u, description.wall.repeat.v),
-                                magFilter: magnificationFilters[description.wall.magFilter],
-                                minFilter: minificationFilters[description.wall.minFilter]
-                            },
-                            secondaryColor: new THREE.Color(parseInt(description.wall.secondaryColor, 16))
+                            column: 0
                         });
                         clonedElevator.row = i;
                         clonedElevator.column = j;

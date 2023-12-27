@@ -9,29 +9,7 @@ import MultiTexturedMaterial from "../helpers/material.js";
  *  size: Vector3,
  *  row: int,
  *  column: int,
- *  segments: Vector3,
- *  materialParameters: {
- *   color: Color,
- *   mapUrl: String,
- *   aoMapUrl: String,
- *   aoMapIntensity: Float,
- *   displacementMapUrl: String,
- *   displacementScale: Float,
- *   displacementBias: Float,
- *   normalMapUrl: String,
- *   normalMapType: Integer,
- *   normalScale: Vector2,
- *   bumpMapUrl: String,
- *   bumpScale: Float,
- *   roughnessMapUrl: String,
- *   roughness: Float,
- *   wrapS: Integer,
- *   wrapT: Integer,
- *   repeat: Vector2,
- *   magFilter: Integer,
- *   minFilter: Integer
- *  },
- *  secondaryColor: Color
+ *  segments: Vector3
  * }
  */
 
@@ -91,7 +69,7 @@ export default class Elevator extends THREE.Group {
             const initialScale = this.elevator.scale.clone();
             const targetPosition = new THREE.Vector3(initialPosition.x, initialPosition.y, initialPosition.z);
             const targetScale = new THREE.Vector3(initialScale.x - 0.015, initialScale.y, initialScale.z);
-
+            this.open = true;
             gsap.to(this.elevator.scale, {
                 duration: 1,
                 x: targetScale.x,
@@ -99,7 +77,6 @@ export default class Elevator extends THREE.Group {
                 z: targetScale.z,
                 ease: "Power2.easeInOut",
                 onComplete: () => {
-                    this.open = true;
                     gsap.to(this.elevator.position, {
                         duration: 1,
                         x: targetPosition.x,

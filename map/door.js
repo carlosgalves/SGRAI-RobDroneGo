@@ -4,35 +4,12 @@ import MultiTexturedMaterial from "../helpers/material.js";
 import { OBB } from "three/addons/math/OBB.js";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
-
 /*
  * parameters = {
  *  size: Vector3,
  *  segments: Vector3,
  *  row: int,
- *  column: int,
- *  materialParameters: {
- *   color: Color,
- *   mapUrl: String,
- *   aoMapUrl: String,
- *   aoMapIntensity: Float,
- *   displacementMapUrl: String,
- *   displacementScale: Float,
- *   displacementBias: Float,
- *   normalMapUrl: String,
- *   normalMapType: Integer,
- *   normalScale: Vector2,
- *   bumpMapUrl: String,
- *   bumpScale: Float,
- *   roughnessMapUrl: String,
- *   roughness: Float,
- *   wrapS: Integer,
- *   wrapT: Integer,
- *   repeat: Vector2,
- *   magFilter: Integer,
- *   minFilter: Integer
- *  },
- *  secondaryColor: Color
+ *  column: int
  * }
  */
 
@@ -90,7 +67,9 @@ export default class Door extends THREE.Group {
             console.error('Door not loaded yet.');
             return;
         }
+
         if (!this.open) {
+            this.open = true;
             const initialDoorPosition = this.group.position.clone();
             const targetDoorPosition = new THREE.Vector3(initialDoorPosition.x + 0.9, initialDoorPosition.y, initialDoorPosition.z + 0.05);
             const endPosition = new THREE.Vector3(initialDoorPosition.x - 0.015, initialDoorPosition.y, initialDoorPosition.z);
@@ -101,8 +80,6 @@ export default class Door extends THREE.Group {
                 z: targetDoorPosition.z,
                 ease: "Power2.easeInOut",
                 onComplete: () => {
-                    this.open = true;
-
                     gsap.to(this.group.position, {
                         duration: 1,
                         x: endPosition.x,
