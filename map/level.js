@@ -1312,33 +1312,33 @@ export default class Level {
                 }
                 if (this.floorPlan.collision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection)) {
                     this.audio.play(this.audio.deathClips, false);
-                    this.animations.fadeToAction("Death", 0.2);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_BoxTransitionOut", 0.1);
                 }
                 else if (this.player.keyStates.jump) {
                     this.audio.play(this.audio.jumpClips, true);
-                    this.animations.fadeToAction("Jump", 0.2);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Jump", 0.2);
                 }
                 else if (this.player.keyStates.yes) {
-                    this.animations.fadeToAction("Yes", 0.2);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Flip", 0.2);
                 }
                 else if (this.player.keyStates.no) {
-                    this.animations.fadeToAction("No", 0.2);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_DefaultPose", 0.2);
                 }
                 else if (this.player.keyStates.wave) {
-                    this.animations.fadeToAction("Wave", 0.2);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_ToyBoxPoseA", 0.2);
                 }
                 else if (this.player.keyStates.punch) {
-                    this.animations.fadeToAction("Punch", 0.2);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_AttackLeft", 0.2);
                 }
                 else if (this.player.keyStates.thumbsUp) {
-                    this.animations.fadeToAction("ThumbsUp", 0.2);
+                    this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Dance", 0.2);
                 }
                 else {
                     if (playerTurned) {
                         this.player.direction = directionDeg;
                     }
                     if (playerMoved) {
-                        this.animations.fadeToAction(this.player.shiftKey ? "Running" : "Walking", 0.2);
+                        this.animations.fadeToAction(this.player.shiftKey ? "SK_BoxyBoo.ao|A_Boxy_JumpAbilityAirborne" : "SK_BoxyBoo.ao|A_Boxy_Walk", 0.2);
                         this.player.position.set(position.x, position.y, position.z);
                     }
                     else {
@@ -1346,7 +1346,7 @@ export default class Level {
                             this.animations.resetIdleTime();
                             this.audio.play(this.audio.idleClips, false);
                         }
-                        this.animations.fadeToAction("Idle", this.animations.activeName != "Death" ? 0.2 : 0.6);
+                        this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_Idle", this.animations.activeName != "SK_BoxyBoo.ao|A_Boxy_BoxTransitionOut  " ? 0.2 : 0.6);
                     }
                 }
 
