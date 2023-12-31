@@ -72,7 +72,7 @@ export default class Door extends THREE.Group {
             this.open = true;
             const initialDoorPosition = this.group.position.clone();
             const targetDoorPosition = new THREE.Vector3(initialDoorPosition.x + 0.9, initialDoorPosition.y, initialDoorPosition.z + 0.05);
-            const endPosition = new THREE.Vector3(initialDoorPosition.x - 0.015, initialDoorPosition.y, initialDoorPosition.z);
+            const endPosition = new THREE.Vector3(initialDoorPosition.x , initialDoorPosition.y, initialDoorPosition.z);
             gsap.to(this.group.position, {
                 duration: 1,
                 x: targetDoorPosition.x,
