@@ -2,11 +2,22 @@ body {
     margin: 0;
 }
 
-#building-container {
+/*#building-container {
     position: absolute;
     left: .5vw;
     top: .5vh;
     color: white;
+}*/
+
+#building-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#building-container label,
+#building-container select,
+#building-container button {
+    margin-bottom: 10px;
 }
 
 #container {
@@ -149,6 +160,10 @@ canvas {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 999;
     display: none; /* Initially hide the popup */
+}
+
+.popup p {
+    margin-bottom: 10px;
 }
 
 .close-btn {
