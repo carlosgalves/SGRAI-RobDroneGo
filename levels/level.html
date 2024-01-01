@@ -6,60 +6,79 @@
     <title>SGRAI - RobDroneGo</title>
     <link rel="stylesheet" href="styles.css">
     <script src="info_panels.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"></link>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
-<div id="building-container">
-    <label for="buildingSelector">Building:</label>
-    <select id="buildingSelector">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-    </select>
 
-    <label for="floorSelector">Floor:</label>
-    <select id="floorSelector"></select> <!-- as opções de piso vão aparecer dinâmicamente conforme o edifício selecionado -->
+<div id="elevatorPopup" class="popup">
+    <span class="close-btn" onclick="closeElevatorPopup()">X</span>
+    <p>Change to a different level:</p>
 
-    <button id="reloadButton">Go</button>
+    <div id="building-container">
+        <label for="buildingSelector">Building:</label>
+        <select id="buildingSelector">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
 
-    <script>
-        const buildingSelector = document.getElementById('buildingSelector');
-        const floorSelector = document.getElementById('floorSelector');
+        <label for="floorSelector">Floor:</label>
+        <select id="floorSelector"></select> <!-- as opções de piso vão aparecer dinâmicamente conforme o edifício selecionado -->
 
-        buildingSelector.addEventListener('change', changeBuilding);
-        floorSelector.addEventListener('change', logSelection);
+        <button id="reloadButton">Go</button>
 
-        const floorMapping = {
-            'A': 2,
-            'B': 3,
-            'C': 4,
-            'D': 3,
-        };
+        <script>
+            const buildingSelector = document.getElementById('buildingSelector');
+            const floorSelector = document.getElementById('floorSelector');
 
-        function changeBuilding() {
-            const selectedBuilding = buildingSelector.value;
-            floorSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
-        }
+            buildingSelector.addEventListener('change', changeBuilding);
+            floorSelector.addEventListener('change', logSelection);
 
-        function generateFloorOptions(numFloors) {
-            return Array.from({ length: numFloors }, (_, i) => i + 1)
-                .map(i => `<option value="${i}">${i}</option>`)
-                .join('');
-        }
+            const floorMapping = {
+                'A': 2,
+                'B': 3,
+                'C': 4,
+                'D': 3,
+            };
 
-        function getNumberOfFloors(building) {
-            return floorMapping[building] || 0;
-        }
+            function changeBuilding() {
+                const selectedBuilding = buildingSelector.value;
+                floorSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
+            }
 
-        function logSelection() {
-            const selectedBuilding = buildingSelector.value;
-            const selectedFloor = floorSelector.value;
-            console.log(`Selected Building: ${selectedBuilding}, Selected Floor: ${selectedFloor}`);
-        }
-    </script>
+            function generateFloorOptions(numFloors) {
+                return Array.from({ length: numFloors }, (_, i) => i + 1)
+                    .map(i => `<option value="${i}">${i}</option>`)
+                    .join('');
+            }
 
+            function getNumberOfFloors(building) {
+                return floorMapping[building] || 0;
+            }
+
+            function logSelection() {
+                const selectedBuilding = buildingSelector.value;
+                const selectedFloor = floorSelector.value;
+                console.log(`Selected Building: ${selectedBuilding}, Selected Floor: ${selectedFloor}`);
+            }
+        </script>
+
+    </div>
+
+
+    <!-- Add any additional content or styling as needed -->
 </div>
+<script>
+    function closeElevatorPopup() {
+        // Add code to close the elevator popup (e.g., hide or remove the element)
+        var elevatorPopup = document.getElementById("elevatorPopup");
+        elevatorPopup.style.display = "none";
+    }
+</script>
+
 
 <div id="container">
     <script>displayViewsPanel()</script>
