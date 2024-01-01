@@ -6,6 +6,7 @@ import Wall from "./wall.js";
 import Door from "./door.js";
 import Elevator from "./elevator.js";
 
+
 /*
  * parameters = {
  *  url: String,
@@ -150,7 +151,7 @@ export default class FloorPlan extends THREE.Group {
                         });
                         clonedDoor.row = i;
                         clonedDoor.column = j;
-                        clonedDoor.rotateY(Math.PI / 2.0);  
+                        clonedDoor.rotateY(Math.PI / 2.0);
                         clonedDoor.position.set(j - this.halfSize.width, 0.5, i - this.halfSize.depth + 0.5);
                         this.add(clonedDoor);
                         this.doors.push(clonedDoor);
@@ -293,7 +294,7 @@ export default class FloorPlan extends THREE.Group {
     doorCollision(indices, offsets, orientation, position, delta, radius, name) {
         const row = indices[0] + offsets[0];
         const column = indices[1] + offsets[1];
-    
+
         const isDoor = this.map[row][column] === 4 || this.map[row][column] === 5 || this.map[row][column] === 8 || this.map[row][column] === 9;
 
         if (isDoor) {
@@ -306,7 +307,7 @@ export default class FloorPlan extends THREE.Group {
 
             //console.log("Near the " + name + ".");
             this.interactWithDoor(row, column, distanceToDoor);
-            
+
 
         }
         /*if (isDoor) {
@@ -322,7 +323,7 @@ export default class FloorPlan extends THREE.Group {
                 }
             }
         }*/
-    
+
         return false;
     }
 
@@ -332,7 +333,7 @@ export default class FloorPlan extends THREE.Group {
        // console.log('currentDoor:', currentDoor, 'distanceToDoor:', distanceToDoor);
         //console.log('Row ' + row + ' Column ' + column);
         if (currentDoor && distanceToDoor < 7.5) {
-            currentDoor.openAnimation(); 
+            currentDoor.openAnimation();
         }
 
     }
@@ -340,47 +341,37 @@ export default class FloorPlan extends THREE.Group {
     elevatorCollision(indices, offsets, orientation, position, delta, radius, name) {
         const row = indices[0] + offsets[0];
         const column = indices[1] + offsets[1];
-    
+
         const isElevator = this.map[row][column] === 10 || this.map[row][column] === 11 || this.map[row][column] === 6 || this.map[row][column] === 7;
-    
+
         if (isElevator) {
+            console.log("near elevator)")
+
             const elevatorPosition = new THREE.Vector3(
                 column - this.halfSize.width + 0.5,
                 0.5,
                 row - this.halfSize.depth
             );
             const distanceToDoor = position.distanceTo(elevatorPosition);
-    
-            if (distanceToDoor < 7.5) {
+
+            if (distanceToDoor < 0) {
                 //console.log("Near the " + name + ".");
-            
+
                 this.interactWithElevator(row, column);
-            
+
             }
         }
 
-        /*if (isElevator) {
-            if (orientation !== 0) {
-                if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
-                    console.log("Collision with " + name + ".");
-                    return true;
-                }
-            } else {
-                if (Math.abs(position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z)) < radius) {
-                    console.log("Collision with " + name + ".");
-                    return true;
-                }
-            }
-        }*/
-    
         return false;
     }
 
+
     interactWithElevator(row, column) {
         const currentElevator = this.elevators.find(door => door.row === row && door.column === column);
-        //console.log('Row ' + row + ' Column ' + column);
+        console.log('Row ' + row + ' Column ' + column);
+
         if (currentElevator) {
-            currentElevator.openAnimation(); 
+            currentElevator.openAnimation();
         }
     }
 
@@ -398,7 +389,7 @@ export default class FloorPlan extends THREE.Group {
                 this.elevatorCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north elevator") || // Collision with north door
                 this.elevatorCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west elevator") || // Collision with west door
                 this.elevatorCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south elevator") || // Collision with south door
-                this.elevatorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east elevator") || 
+                this.elevatorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east elevator") ||
                 this.doorCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north door") || // Collision with north door
                 this.doorCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west door") || // Collision with west door
                 this.doorCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south door") || // Collision with south door
