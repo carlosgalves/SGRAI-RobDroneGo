@@ -60,7 +60,6 @@ export default class Elevator extends THREE.Group {
         });
 
         const material2 = new THREE.MeshStandardMaterial({ color: "#ffffff", transparent: true, opacity: 0});
-        //material2.opacity = 0;
         let geometry2 = new THREE.PlaneGeometry(1, 0.8 + this.groundHeight, this.segments.x, this.segments.y);
         let wall = new THREE.Mesh(geometry2, material2);
         wall.position.set(0, -halfGroundHeight, -0.5);
@@ -68,6 +67,8 @@ export default class Elevator extends THREE.Group {
         wall.receiveShadow = true;
         this.wall = wall;
         this.add(wall);
+
+        this.doorPosition = this.elevator.position.clone();
     }
 
     openAnimation() {
@@ -77,19 +78,14 @@ export default class Elevator extends THREE.Group {
         }
 
         if (!this.open) {
-            const initialPosition = this.elevator.position.clone();
-            const initialScale = this.elevator.scale.clone();
-            const targetPosition = new THREE.Vector3(initialPosition.x+0.2, initialPosition.y, initialPosition.z);
-            const targetScale = new THREE.Vector3(initialScale.x - 1, initialScale.y, initialScale.z);
+            const targetPosition = this.doorPosition.clone().x + 0.2
             this.open = true;
             const elevatorMaterial = this.elevator.children[0].material;
             const tl = gsap.timeline();
 
             tl.to(this.elevator.position, {
                 duration: 1,
-                x: targetPosition.x,
-                y: targetPosition.y,
-                z: targetPosition.z,
+                x: targetPosition,
                 ease: "Power2.easeInOut"
             });
 
@@ -100,9 +96,7 @@ export default class Elevator extends THREE.Group {
 
             tl.to(this.elevator.position, {
                 duration: 1,
-                x: initialPosition.x,
-                y: initialPosition.y,
-                z: initialPosition.z,
+                x: this.doorPosition.x,
                 ease: "Power2.easeInOut",
                 delay: 2
             });
