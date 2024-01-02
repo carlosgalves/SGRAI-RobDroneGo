@@ -8,7 +8,7 @@ let selectedBuilding = 'A';
 */
 let selectedBuilding = currentBuilding;
 
-const selectedFloor = currentFloor;
+let selectedFloor = currentFloor;
 
 
 function initialize(selectedBuilding, selectedFloor) {
@@ -281,11 +281,20 @@ goButton.addEventListener('click', reloadMap)
 
 document.addEventListener('reloadLevel', function (event) {
     console.log('DETAILS -> ' + JSON.stringify(event.detail));
-    const selectedBuilding = event.detail.building;
-    const selectedFloor = event.detail.floor;
-    level.destroy();
-    initialize(selectedBuilding, selectedFloor);
-    animate();
+    const newSelectedBuilding = event.detail.building;
+    const newSelectedFloor = event.detail.floor;
+
+    if (newSelectedBuilding !== selectedBuilding || newSelectedFloor !== selectedFloor) {
+        selectedBuilding = newSelectedBuilding;
+        selectedFloor = newSelectedFloor;
+
+        level.destroy();
+        setTimeout(() => {
+            initialize(selectedBuilding, selectedFloor);
+
+            animate();
+        }, 100);
+    }
 });
 
 document.addEventListener('reloadMap', function (event) {

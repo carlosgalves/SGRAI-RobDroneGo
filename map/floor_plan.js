@@ -409,16 +409,16 @@ export default class FloorPlan extends THREE.Group {
         let building;
         switch (buildingIdentifier) {
             case 2:
-                building = 'a';
+                building = 'A';
                 break;
             case 3:
-                building = 'b';
+                building = 'B';
                 break;
             case 4:
-                building = 'c';
+                building = 'C';
                 break;
             case 5:
-                building = 'd';
+                building = 'D';
                 break;
             default:
                 return;
