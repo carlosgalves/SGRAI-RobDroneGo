@@ -11,22 +11,71 @@
 </head>
 
 <body>
+<div id="building-container">
+    <label for="buildingSelector">Building:</label>
+    <select id="buildingSelector">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+    </select>
 
+    <label for="floorSelector">Floor:</label>
+    <select id="floorSelector"></select> <!-- as opções de piso vão aparecer dinâmicamente conforme o edifício selecionado -->
+
+    <button id="goButton">Go</button>
+
+    <script>
+        const buildingSelector = document.getElementById('buildingSelector');
+        const floorSelector = document.getElementById('floorSelector');
+
+        buildingSelector.addEventListener('change', changeBuilding);
+        floorSelector.addEventListener('change', logSelection);
+
+        const floorMapping = {
+            'A': 2,
+            'B': 3,
+            'C': 4,
+            'D': 3,
+        };
+
+        function changeBuilding() {
+            const selectedBuilding = buildingSelector.value;
+            floorSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
+        }
+
+        function generateFloorOptions(numFloors) {
+            return Array.from({ length: numFloors }, (_, i) => i + 1)
+                .map(i => `<option value="${i}">${i}</option>`)
+                .join('');
+        }
+
+        function getNumberOfFloors(building) {
+            return floorMapping[building] || 0;
+        }
+
+        function logSelection() {
+            const selectedBuilding = buildingSelector.value;
+            const selectedFloor = floorSelector.value;
+            console.log(`Selected Building: ${selectedBuilding}, Selected Floor: ${selectedFloor}`);
+        }
+    </script>
+</div>
 <div id="elevatorPopup" class="popup">
     <span class="close-btn" onclick="closeElevatorPopup()">X</span>
     <p>Change to a different level</p>
 
-    <div id="building-container">
+    <div id="floor-container">
 
-        <label for="floorSelector">Floor:</label>
-        <select id="floorSelector"></select> <!-- as opções de piso vão aparecer dinâmicamente conforme o edifício selecionado -->
+        <label for="levelSelector">Floor:</label>
+        <select id="levelSelector"></select> <!-- as opções de piso vão aparecer dinâmicamente conforme o edifício selecionado -->
 
         <button id="reloadButton">Go</button>
 
         <script>
-            const floorSelector = document.getElementById('floorSelector');
+            const levelSelector = document.getElementById('levelSelector');
 
-            floorSelector.addEventListener('change', logSelection);
+            levelSelector.addEventListener('change', logSelection);
 
             const floorMapping = {
                 'A': 2,
@@ -46,7 +95,7 @@
             }
 
             function logSelection() {
-                const selectedFloor = floorSelector.value;
+                const selectedFloor = levelSelector.value;
                 console.log(`Selected Floor: ${selectedFloor}`);
             }
         </script>

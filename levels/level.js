@@ -257,7 +257,8 @@ function initialize(selectedBuilding, selectedFloor) {
         { view: "mini-map", initialViewport: new THREE.Vector4(1, 0, 0.35, 0.25), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.32, zoomMin: 0.32, zoomMax: 2.56 } // Mini-map view camera parameters
     );
 }
-floorSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
+levelSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
+floorSelector.innerHTML =generateFloorOptions(getNumberOfFloors(selectedBuilding));
 
 function animate() {
     requestAnimationFrame(animate);
@@ -270,6 +271,9 @@ animate();
 const reloadButton = document.getElementById('reloadButton');
 reloadButton.addEventListener('click', reloadLevel);
 
+const goButton = document.getElementById('goButton');
+goButton.addEventListener('click', reloadMap)
+
 document.addEventListener('reloadLevel', function (event) {
     console.log('DETAILS -> ' + JSON.stringify(event.detail));
     const selectedBuilding = event.detail.building;
@@ -279,7 +283,23 @@ document.addEventListener('reloadLevel', function (event) {
     animate();
 });
 
+document.addEventListener('reloadMap', function (event) {
+    console.log('DETAILS -> ' + JSON.stringify(event.detail));
+    const selectedBuilding = event.detail.building;
+    const selectedFloor = event.detail.floor;
+    level.destroy();
+    initialize(selectedBuilding, selectedFloor);
+    animate();
+});
+
 function reloadLevel() {
+    const selectedFloor = levelSelector.value;
+    level.destroy()
+    initialize(selectedBuilding, selectedFloor);
+}
+
+function reloadMap() {
+    const selectedBuilding = buildingSelector.value;
     const selectedFloor = floorSelector.value;
     level.destroy()
     initialize(selectedBuilding, selectedFloor);
