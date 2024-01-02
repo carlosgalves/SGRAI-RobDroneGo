@@ -150,7 +150,7 @@ export default class FloorPlan extends THREE.Group {
                         });
                         clonedDoor.row = i;
                         clonedDoor.column = j;
-                        clonedDoor.rotateY(Math.PI / 2.0);  
+                        clonedDoor.rotateY(Math.PI / 2.0);
                         clonedDoor.position.set(j - this.halfSize.width, 0.5, i - this.halfSize.depth + 0.5);
                         this.add(clonedDoor);
                         this.doors.push(clonedDoor);
@@ -320,6 +320,20 @@ export default class FloorPlan extends THREE.Group {
 
     }
 
+    isPlayerInElevator = false;
+
+    showElevatorPopup() {
+        var elevatorPopup = document.getElementById("elevatorPopup");
+
+        // Make sure the elevator popup exists
+        if (elevatorPopup) {
+            // Center the popup on the screen
+            elevatorPopup.style.display = "block";
+
+            // You can add additional logic or actions here if needed
+        }
+    }
+
     elevatorCollision(indices, offsets, orientation, position, delta, radius, name) {
         const row = indices[0] + offsets[0];
         const column = indices[1] + offsets[1];
@@ -333,20 +347,29 @@ export default class FloorPlan extends THREE.Group {
                 row - this.halfSize.depth
             );
             const distanceToDoor = position.distanceTo(elevatorPosition);
-    
-            if (distanceToDoor < 7.5) {
+            console.log(distanceToDoor)
+
+            if (distanceToDoor <0.52 && !this.isPlayerInElevator) {
+                this.showElevatorPopup()
+                this.isPlayerInElevator = true;
+            } else if (distanceToDoor >= 0.52) {
+                this.isPlayerInElevator = false;
+            }
+
+            if (distanceToDoor < 7.5) { //TODO
                 this.interactWithElevator(row, column);
-            
             }
         }
+
         return false;
     }
+
 
     interactWithElevator(row, column) {
         const currentElevator = this.elevators.find(door => door.row === row && door.column === column);
         //console.log('Row ' + row + ' Column ' + column);
         if (currentElevator) {
-            currentElevator.openAnimation();
+            currentElevator.openAnimation(); 
         }
     }
 
