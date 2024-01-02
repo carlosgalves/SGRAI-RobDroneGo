@@ -1,3 +1,5 @@
+const levelSelector = document.getElementById('levelSelector');
+
 import * as THREE from "three";
 import Orientation from "../helpers/orientation.js";
 import Level from "../map/level.js";
@@ -12,7 +14,6 @@ let selectedFloor = currentFloor;
 
 
 function initialize(selectedBuilding, selectedFloor) {
-
     // Create the game
     level = new Level(
         {}, // General Parameters
@@ -261,6 +262,7 @@ function initialize(selectedBuilding, selectedFloor) {
         { view: "top", initialViewport: new THREE.Vector4(1, 1, 1, 1), initialOrientation: new Orientation(0.0, -90.0), initialDistance: 4.0, distanceMin: 1.0, distanceMax: 16.0, initialFogDensity: 0.01 }, // Top view camera parameters
         { view: "mini-map", initialViewport: new THREE.Vector4(1, 0, 0.35, 0.25), initialOrientation: new Orientation(180.0, -90.0), initialZoom: 0.32, zoomMin: 0.32, zoomMax: 2.56 } // Mini-map view camera parameters
     );
+    levelSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
 }
 levelSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
 floorSelector.innerHTML =generateFloorOptions(getNumberOfFloors(selectedBuilding));
