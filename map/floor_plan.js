@@ -347,13 +347,17 @@ export default class FloorPlan extends THREE.Group {
                 row - this.halfSize.depth
             );
             const distanceToDoor = position.distanceTo(elevatorPosition);
-            console.log(distanceToDoor)
+            //console.log(distanceToDoor)
 
-            if (distanceToDoor <0.52 && !this.isPlayerInElevator) {
+            /*if (distanceToDoor <0.52 && !this.isPlayerInElevator) {
                 this.showElevatorPopup()
                 this.isPlayerInElevator = true;
             } else if (distanceToDoor >= 0.52) {
                 this.isPlayerInElevator = false;
+            }*/
+
+            if (this.checkPlayerPositionInsideElevator(row, column, position)) {
+                this.showElevatorPopup();
             }
 
             if (distanceToDoor < 7.5) { //TODO
@@ -367,11 +371,20 @@ export default class FloorPlan extends THREE.Group {
 
     interactWithElevator(row, column) {
         const currentElevator = this.elevators.find(door => door.row === row && door.column === column);
-        //console.log('Row ' + row + ' Column ' + column);
         if (currentElevator) {
             currentElevator.openAnimation(); 
         }
     }
+
+    checkPlayerPositionInsideElevator(row, column, position) {
+        const currentElevator = this.elevators.find(elevator => elevator.row === row && elevator.column === column);
+        if (currentElevator) {
+            return currentElevator.checkCollisionWithWall(position);
+        }
+        return false;
+    }
+
+
 
     passageCollision(indices, offsets, orientation, position, delta, radius, name) {
         const row = indices[0] + offsets[0];

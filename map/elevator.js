@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { merge } from "../helpers/merge.js";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
-import MultiTexturedMaterial from "../helpers/material.js";
 
 /*
  * parameters = {
@@ -21,10 +20,7 @@ export default class Elevator extends THREE.Group {
         this.open = false;
         this.elevator;
         this.object;
-        /*this.elevatorFaceLeft;
-        this.elevatorFaceLeft2;
-        this.elevatorFaceRight;
-        this.elevatorFaceRight2;*/
+        this.wall;
 
         const material = new THREE.MeshStandardMaterial({ color: "#3d3c3c", transparent: true});
         const group = new THREE.Group();
@@ -63,10 +59,15 @@ export default class Elevator extends THREE.Group {
             });
         });
 
-        // Create Raycaster
-        this.raycaster = new THREE.Raycaster();
-        this.intersectedObjects = [this.object];
-
+        const material2 = new THREE.MeshStandardMaterial({ color: "#ffffff", transparent: true, opacity: 0});
+        //material2.opacity = 0;
+        let geometry2 = new THREE.PlaneGeometry(1, 0.8 + this.groundHeight, this.segments.x, this.segments.y);
+        let wall = new THREE.Mesh(geometry2, material2);
+        wall.position.set(0, -halfGroundHeight, -0.5);
+        wall.castShadow = true;
+        wall.receiveShadow = true;
+        this.wall = wall;
+        this.add(wall);
     }
 
     openAnimation() {
@@ -114,50 +115,18 @@ export default class Elevator extends THREE.Group {
             gsap.delayedCall(3.5, () => {
                 this.open = false;
             });
-
-
-
-            /*gsap.to(this.elevator.scale, {
-                duration: 1,
-                x: targetScale.x,
-                y: targetScale.y,
-                z: targetScale.z,
-                ease: "Power2.easeInOut",
-                onComplete: () => {
-                    gsap.to(this.elevator.position, {
-                        duration: 1,
-                        x: targetPosition.x,
-                        y: targetPosition.y,
-                        z: targetPosition.z,
-                        ease: "Power2.easeInOut",
-                        onComplete: () => {
-                            gsap.to(this.elevator.scale, {
-                                duration: 1,
-                                x: initialScale.x,
-                                y: initialScale.y,
-                                z: initialScale.z,
-                                ease: "Power2.easeInOut",
-                                delay: 2,
-                                onComplete: () => {
-                                    gsap.to(this.elevator.position, {
-                                        duration: 1,
-                                        x: initialPosition.x,
-                                        y: initialPosition.y,
-                                        z: initialPosition.z,
-                                        ease: "Power2.easeInOut",
-                                        onComplete: () => {
-                                            gsap.delayedCall(1, () => {
-                                                this.open = false;
-                                            });
-                                        },
-                                    });
-                                },
-                            });
-                        },
-                    });
-                }
-            });*/
         }
+    }
+
+    checkCollisionWithWall(playerPosition) {
+        const playerPositionRelativeToElevator = this.worldToLocal(playerPosition.clone());
+
+        const wallPosition = this.wall.position.clone();
+        if (playerPositionRelativeToElevator.x <= wallPosition.x && playerPositionRelativeToElevator.z <= wallPosition.z) {
+            return true;
+        }
+
+        return false;
     }
 
 }
