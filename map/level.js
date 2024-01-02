@@ -15,7 +15,7 @@
 
 import * as THREE from "three";
 import Stats from "three/addons/libs/stats.module.js";
-import Orientation from "../orientation.js";
+import Orientation from "../helpers/orientation.js";
 import { generalData, audioData, cubeTextureData, floorPlanData, ambientLightData, directionalLightData, spotLightData, flashLightData, shadowsData, fogData, collisionDetectionData, cameraData } from "../default_data.js";
 import {playerController} from "../player/player.js";
 import { merge } from "../helpers/merge.js";

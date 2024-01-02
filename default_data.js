@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import Orientation from "./orientation.js";
+import Orientation from "./helpers/orientation.js";
 
 export const generalData = {
     setDevicePixelRatio: false

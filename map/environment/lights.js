@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { merge } from "../../helpers/merge.js";
-import Orientation from "../../orientation.js";
+import Orientation from "../../helpers/orientation.js";
 
 /*
  * parameters = {

@@ -63,6 +63,9 @@ export default class Elevator extends THREE.Group {
             });
         });
 
+        // Create Raycaster
+        this.raycaster = new THREE.Raycaster();
+        this.intersectedObjects = [this.object];
 
     }
 
@@ -156,4 +159,5 @@ export default class Elevator extends THREE.Group {
             });*/
         }
     }
+
 }
