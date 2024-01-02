@@ -3,8 +3,13 @@ import Orientation from "../helpers/orientation.js";
 import Level from "../map/level.js";
 
 let level;
-const selectedBuilding = 'A';
-const selectedFloor = '1';
+/*
+let selectedBuilding = 'A';
+*/
+let selectedBuilding = currentBuilding;
+
+const selectedFloor = currentFloor;
+
 
 function initialize(selectedBuilding, selectedFloor) {
 
@@ -295,12 +300,16 @@ document.addEventListener('reloadMap', function (event) {
 function reloadLevel() {
     const selectedFloor = levelSelector.value;
     level.destroy()
+    updateCurrentValues(selectedBuilding, selectedFloor);
     initialize(selectedBuilding, selectedFloor);
+    console.log("Level: " + selectedBuilding + ", " + selectedFloor)
 }
 
 function reloadMap() {
     const selectedBuilding = buildingSelector.value;
     const selectedFloor = floorSelector.value;
     level.destroy()
+    updateCurrentValues(selectedBuilding, selectedFloor);
     initialize(selectedBuilding, selectedFloor);
+    console.log("Level: " + selectedBuilding + ", " + selectedFloor)
 }

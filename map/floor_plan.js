@@ -325,12 +325,8 @@ export default class FloorPlan extends THREE.Group {
     showElevatorPopup() {
         var elevatorPopup = document.getElementById("elevatorPopup");
 
-        // Make sure the elevator popup exists
         if (elevatorPopup) {
-            // Center the popup on the screen
             elevatorPopup.style.display = "block";
-
-            // You can add additional logic or actions here if needed
         }
     }
 
@@ -347,7 +343,7 @@ export default class FloorPlan extends THREE.Group {
                 row - this.halfSize.depth
             );
             const distanceToDoor = position.distanceTo(elevatorPosition);
-            console.log(distanceToDoor)
+            //console.log(distanceToDoor)
 
             if (distanceToDoor <0.52 && !this.isPlayerInElevator) {
                 this.showElevatorPopup()

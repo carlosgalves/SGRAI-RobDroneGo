@@ -8,6 +8,23 @@
     <script src="info_panels.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"></link>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        const floorMapping = {
+            'A': 2,
+            'B': 3,
+            'C': 4,
+            'D': 3,
+        }
+
+        let currentBuilding = 'A';
+        let currentFloor = '1';
+
+        function updateCurrentValues(building, floor) {
+            currentBuilding = building;
+            currentFloor = floor;
+        }
+        console.log("current level: " + currentBuilding + currentFloor);
+    </script>
 </head>
 
 <body>
@@ -32,13 +49,6 @@
         buildingSelector.addEventListener('change', changeBuilding);
         floorSelector.addEventListener('change', logSelection);
 
-        const floorMapping = {
-            'A': 2,
-            'B': 3,
-            'C': 4,
-            'D': 3,
-        };
-
         function changeBuilding() {
             const selectedBuilding = buildingSelector.value;
             floorSelector.innerHTML = generateFloorOptions(getNumberOfFloors(selectedBuilding));
@@ -57,6 +67,7 @@
         function logSelection() {
             const selectedBuilding = buildingSelector.value;
             const selectedFloor = floorSelector.value;
+            //updateCurrentValues(selectedBuilding, selectedFloor);
             console.log(`Selected Building: ${selectedBuilding}, Selected Floor: ${selectedFloor}`);
         }
     </script>
@@ -74,15 +85,8 @@
 
         <script>
             const levelSelector = document.getElementById('levelSelector');
-
+            levelSelector.innerHTML = generateFloorOptions(getNumberOfFloors(currentBuilding));
             levelSelector.addEventListener('change', logSelection);
-
-            const floorMapping = {
-                'A': 2,
-                'B': 3,
-                'C': 4,
-                'D': 3,
-            };
 
             function generateFloorOptions(numFloors) {
                 return Array.from({ length: numFloors }, (_, i) => i + 1)
@@ -90,12 +94,14 @@
                     .join('');
             }
 
-            function getNumberOfFloors(building) {
-                return floorMapping[building] || 0;
+            function getNumberOfFloors(currentBuilding) {
+                console.log(currentBuilding);
+                return floorMapping[currentBuilding] || 0;
             }
 
             function logSelection() {
                 const selectedFloor = levelSelector.value;
+                //updateCurrentValues(currentBuilding, selectedFloor);
                 console.log(`Selected Floor: ${selectedFloor}`);
             }
         </script>
