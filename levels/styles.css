@@ -3,17 +3,10 @@ body {
 }
 
 #building-container {
-    display: flex;
-    flex-direction: column;
-}
-
-#building-container label,
-#building-container select {
-    margin-right: 10px;
-}
-
-#building-container button {
-    margin-top: 10px;
+    position: absolute;
+    left: .5vw;
+    top: .5vh;
+    color: white;
 }
 
 #container {
