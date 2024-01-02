@@ -64,7 +64,7 @@ import UserInterface from "../user_interface.js";
  *  selected: Integer
  * }
  *
- * mazeParameters = {
+ * floorParameters = {
  *  url: String,
  *  designCredits: String,
  *  texturesCredits: String,
@@ -1310,6 +1310,8 @@ export default class Level {
                     playerMoved = true;
                     position.add(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
                 }
+                const map = this.floorPlan.nextLevelColision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection);
+                console.log('MAP -> ' + map);
                 if (this.floorPlan.collision(this.collisionDetectionParameters.method, position, this.collisionDetectionParameters.method != "obb-aabb" ? this.player.radius : this.player.halfSize, directionRad - this.player.defaultDirection)) {
                     this.audio.play(this.audio.deathClips, false);
                     this.animations.fadeToAction("SK_BoxyBoo.ao|A_Boxy_BoxTransitionOut", 0.1);

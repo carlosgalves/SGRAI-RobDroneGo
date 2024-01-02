@@ -309,28 +309,11 @@ export default class FloorPlan extends THREE.Group {
             
 
         }
-        /*if (isDoor) {
-            if (orientation !== 0) {
-                if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
-                    console.log("Collision with " + name + ".");
-                    return true;
-                }
-            } else {
-                if (Math.abs(position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z)) < radius) {
-                    console.log("Collision with " + name + ".");
-                    return true;
-                }
-            }
-        }*/
-    
         return false;
     }
 
     interactWithDoor(row, column, distanceToDoor) {
         const currentDoor = this.doors.find(door => door.row === row && door.column === column);
-
-       // console.log('currentDoor:', currentDoor, 'distanceToDoor:', distanceToDoor);
-        //console.log('Row ' + row + ' Column ' + column);
         if (currentDoor && distanceToDoor < 7.5) {
             currentDoor.openAnimation(); 
         }
@@ -352,27 +335,10 @@ export default class FloorPlan extends THREE.Group {
             const distanceToDoor = position.distanceTo(elevatorPosition);
     
             if (distanceToDoor < 7.5) {
-                //console.log("Near the " + name + ".");
-            
                 this.interactWithElevator(row, column);
             
             }
         }
-
-        /*if (isElevator) {
-            if (orientation !== 0) {
-                if (Math.abs(position.x - (this.cellToCartesian([row, column]).x + delta.x * this.scale.x)) < radius) {
-                    console.log("Collision with " + name + ".");
-                    return true;
-                }
-            } else {
-                if (Math.abs(position.z - (this.cellToCartesian([row, column]).z + delta.z * this.scale.z)) < radius) {
-                    console.log("Collision with " + name + ".");
-                    return true;
-                }
-            }
-        }*/
-    
         return false;
     }
 
@@ -380,18 +346,92 @@ export default class FloorPlan extends THREE.Group {
         const currentElevator = this.elevators.find(door => door.row === row && door.column === column);
         //console.log('Row ' + row + ' Column ' + column);
         if (currentElevator) {
-            currentElevator.openAnimation(); 
+            currentElevator.openAnimation();
         }
     }
 
+    passageCollision(indices, offsets, orientation, position, delta, radius, name) {
+        const row = indices[0] + offsets[0];
+        const column = indices[1] + offsets[1];
+
+        if (this.map[row][column] >= 20) {
+            const passagePosition = new THREE.Vector3(
+                column - this.halfSize.width + 0.5,
+                0.5,
+                row - this.halfSize.depth
+            );
+            const distanceToPassage = position.distanceTo(passagePosition);
+
+            if (distanceToPassage < 7.5) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    changeLevel(matrixValue) {
+        const buildingIdentifier = Math.floor(matrixValue / 10) % 10;
+        const floorIdentifier = matrixValue % 10;
+        console.log(floorIdentifier + ' - bu: ' + buildingIdentifier);
+        let floor;
+        let building;
+        switch (buildingIdentifier) {
+            case 2:
+                building = 'a';
+                break;
+            case 3:
+                building = 'b';
+                break;
+            case 4:
+                building = 'c';
+                break;
+            case 5:
+                building = 'd';
+                break;
+            default:
+                return;
+                break;
+        }
+        switch (floorIdentifier) {
+            case 0:
+                floor = '1';
+                break;
+            case 1:
+                floor = '2';
+                break;
+            case 2:
+                floor = '3';
+                break;
+            case 3:
+                floor = '4';
+                break;
+            default:
+                return;
+                break;
+        }
+
+        const nextFloor = `/floor_plans/building_${building}/floor${floor}.json`;
+
+        const reloadEvent = new CustomEvent('reloadLevel', {
+            detail: { building: building, floor: floor }
+        });
+        document.dispatchEvent(reloadEvent);
+        return nextFloor;
+    }
+    nextLevelColision(method, position, halfSize, direction) {
+        const indices = this.cartesianToCell(position);
+        if (method !== "obb-aabb") {
+            if( this.passageCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north passage") || // Check for passages
+                this.passageCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west passage") ) {
+                const row = indices[0];
+                const column = indices[1];
+                return this.changeLevel(this.map[row][column])
+            }
+        }
+        return null;
+    }
     // Detect collisions
     collision(method, position, halfSize, direction) {
-        /*
-                this.doorCollision(indices, [0, 0], 0, position, { x: 0.0, z: -0.475 }, halfSize, "north door") || // Collision with north door
-                this.doorCollision(indices, [0, 0], 1, position, { x: -0.475, z: 0.0 }, halfSize, "west door") || // Collision with west door
-                this.doorCollision(indices, [1, 0], 0, position, { x: 0.0, z: -0.525 }, halfSize, "south door") || // Collision with south door
-                this.doorCollision(indices, [0, 1], 1, position, { x: -0.525, z: 0.0 }, halfSize, "east door") || // Collision with east door
-        */
         const indices = this.cartesianToCell(position);
         if (method !== "obb-aabb") {
             if (

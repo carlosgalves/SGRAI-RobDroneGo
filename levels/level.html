@@ -354,6 +354,15 @@
     const reloadButton = document.getElementById('reloadButton');
     reloadButton.addEventListener('click', reloadLevel);
 
+    document.addEventListener('reloadLevel', function (event) {
+        console.log('DETAILS -> ' + JSON.stringify(event.detail));
+        const selectedBuilding = event.detail.building;
+        const selectedFloor = event.detail.floor;
+        level.destroy();
+        initialize(selectedBuilding, selectedFloor);
+        animate();
+    });
+
     function reloadLevel() {
         const selectedBuilding = buildingSelector.value;
         const selectedFloor = floorSelector.value;
